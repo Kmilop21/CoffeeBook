@@ -2,15 +2,16 @@
 
 A new Flutter project.
 
-## Getting Started
+## Requirements
 
-This project is a starting point for a Flutter application.
+Los usuarios necesitan una caja de sugerencias para enviar su feedback de una forma conveniente.
 
-A few resources to get you started if this is your first Flutter project:
+Los usuarios necesitan crear, eliminar, compartir y explorar recetas de café.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Los usuarios necesitan crear listas personalizadas de recetas.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Los usuarios necesitan poder navegar las recetas de café con categorías como “espresso, pour-over o cold brew”. Con preferencias de técnicas, tiempos de preparación o ingredientes.
+
+Los usuarios quieren poder calificar las recetas de otros usuarios.
+
+Los usuarios quieren usar la aplicación en diferentes plataformas, como dispositivos móviles, tabletas o computadores
