@@ -24,7 +24,7 @@ class RecipePage extends StatelessWidget {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Text(
-              'By ${recipe.creator.username}',
+              'Por: ${recipe.creator.username}',
               style: const TextStyle(fontSize: 18, color: Colors.grey),
             ),
             const SizedBox(height: 16),

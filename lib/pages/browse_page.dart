@@ -20,7 +20,12 @@ class _BrowsePageState extends State<BrowsePage> {
     Recipe(
       id: 1,
       name: 'café bombóm de fresa',
-      creator: User(id: 1, username: 'felipe'),
+      creator: User(
+          id: 1,
+          username: 'felipe',
+          email: 'felipe@gmail.com',
+          password: '123',
+          recipes: []),
       ingredients: '',
       instructions:
           'tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien',
@@ -29,7 +34,12 @@ class _BrowsePageState extends State<BrowsePage> {
     Recipe(
       id: 2,
       name: 'café tiramisú',
-      creator: User(id: 1, username: 'benjamin'),
+      creator: User(
+          id: 1,
+          username: 'benjamin',
+          email: 'benjamin@gmail.com',
+          password: 'abc',
+          recipes: [[]]),
       ingredients: '',
       instructions:
           'añadir a la licuadora 80 ml de leche de almendras, 2 cdas de queso crema ',
@@ -40,6 +50,9 @@ class _BrowsePageState extends State<BrowsePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(''),
+      ),
       body: _recipeList(),
     );
   }
@@ -60,9 +73,11 @@ class _BrowsePageState extends State<BrowsePage> {
           subtitle: Text(recipe.creator.username),
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => RecipePage(recipe: recipe)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => RecipePage(recipe: recipe),
+              ),
+            );
           },
         );
       },
