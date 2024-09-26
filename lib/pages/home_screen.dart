@@ -17,6 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const Center(
       child: Text('Home Page'),
     ),
+    const BrowsePage(),
     const Center(
       child: Text('Recipes List'),
     ),
@@ -28,7 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: Center(
+        child: _pages.elementAt(_currentIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (int index) {
