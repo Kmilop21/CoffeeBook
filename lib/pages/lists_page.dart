@@ -50,6 +50,7 @@ class _ListsPageState extends State<ListsPage> {
                 builder: (context) => BrowsePage(
                   recipes: recipeList.recipes,
                   showBackButton: true,
+                  user: widget.user,
                 ),
               ),
             );

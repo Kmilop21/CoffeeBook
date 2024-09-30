@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 
 class BrowsePage extends StatefulWidget {
   final List<Recipe> recipes;
+  final User user;
   final bool showBackButton;
 
   const BrowsePage({
     super.key,
     required this.recipes,
+    required this.user,
     this.showBackButton = true,
   });
 
@@ -87,7 +89,10 @@ class _BrowsePageState extends State<BrowsePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RecipePage(recipe: recipe),
+                builder: (context) => RecipePage(
+                  recipe: recipe,
+                  user: widget.user,
+                ),
               ),
             );
           },

@@ -1,3 +1,4 @@
+import 'package:coffeebook/models/ingredient.dart';
 import 'package:coffeebook/models/recipe_list.dart';
 import 'package:coffeebook/pages/lists_page.dart';
 import 'package:coffeebook/models/user.dart';
@@ -54,39 +55,143 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 1,
       name: 'café bombóm de fresa',
       creator: user1,
-      ingredients: '',
       instructions:
-          'tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien',
+          'Tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien...',
       image: 'assets/images/placeholder.png',
+      ingredientProduct: [
+        Ingredient(
+            name: 'Fresas maduras',
+            type: 'Fruta',
+            price: 3000,
+            seller: user2,
+            amount: '2 unidades'),
+        Ingredient(
+            name: 'Leche condensada',
+            type: 'Lacteo',
+            price: 2500,
+            seller: user3,
+            amount: '2 cucharadas'),
+        Ingredient(
+            name: 'Leche',
+            type: 'Lacteo',
+            price: 1000,
+            seller: user3,
+            amount: '1/2 taza'),
+        Ingredient(
+            name: 'Café sello rojo',
+            type: 'Café',
+            price: 8000,
+            seller: user3,
+            amount: '100 ml'),
+      ],
     );
     Recipe recipe2 = Recipe(
       id: 2,
       name: 'café tiramisú',
       creator: user2,
-      ingredients: '',
       instructions:
-          'añadir a la licuadora 80 ml de leche de almendras, 2 cdas de queso crema ',
+          'Añadir a la licuadora 80 ml de leche de almendras\n Añadir 2 cdas de queso crema...',
       image: 'assets/images/placeholder.png',
+      ingredientProduct: [
+        Ingredient(
+          name: 'Queso crema',
+          type: 'Dairy',
+          price: 3000,
+          seller: user2,
+          amount: '2 cdas',
+        ),
+        Ingredient(
+          name: 'Leche de almendras',
+          type: 'Dairy',
+          price: 2000,
+          seller: user2,
+          amount: '80 ml',
+        ),
+        Ingredient(
+          name: 'Miel',
+          type: 'Sweetener',
+          price: 2000,
+          seller: user2,
+          amount: '1 cda',
+        ),
+        Ingredient(
+          name: 'Cacao en polvo',
+          type: 'Powder',
+          price: 2000,
+          seller: user2,
+          amount: 'Al gusto',
+        ),
+        Ingredient(
+          name: 'Hielo',
+          type: 'Ice',
+          price: 1500,
+          seller: user2,
+          amount: 'Al gusto',
+        ),
+        Ingredient(
+          name: 'Café Matiz Ámbar',
+          type: 'Coffee',
+          price: 5000,
+          seller: user2,
+          amount: '100 g',
+        ),
+        Ingredient(
+          name: 'Agua',
+          type: 'Liquid',
+          price: 0.0,
+          seller: user2,
+          amount: '300 ml',
+        ),
+        Ingredient(
+          name: 'Galletas Ducales Tentación',
+          type: 'Decoration',
+          price: 2000,
+          seller: user2,
+          amount: 'Para decorar',
+        ),
+      ],
     );
     Recipe recipe3 = Recipe(
       id: 3,
-      name: 'café tiramisú',
+      name: 'Mimosa frappé de café',
       creator: user3,
-      ingredients: '',
       instructions:
-          'añadir a la licuadora 80 ml de leche de almendras, 2 cdas de queso crema ',
+          'En una licuadora, agrega 1 taza de cascos de mandarina congelados\nAgrega 2 oz de vino proseco y licúa...',
       image: 'assets/images/placeholder.png',
+      ingredientProduct: [
+        Ingredient(
+          name: 'Cascos de mandarina congelados',
+          type: 'Fruit',
+          price: 4000,
+          seller: user3,
+          amount: '1 taza',
+        ),
+        Ingredient(
+          name: 'Vino prosecco',
+          type: 'Alcohol',
+          price: 11000,
+          seller: user3,
+          amount: '2 oz',
+        ),
+        Ingredient(
+          name: 'Café Matiz Escarlata',
+          type: 'Coffee',
+          price: 5000,
+          seller: user3,
+          amount: '1/3 taza',
+        ),
+      ],
     );
 
     RecipeList favouriteRecipes = RecipeList(
       id: 1,
-      name: 'cafés favoritos',
+      name: 'Cafés favoritos',
       creator: user1,
       recipes: [recipe1, recipe2],
     );
     RecipeList recipesToTry = RecipeList(
       id: 2,
-      name: 'recetas a intentar',
+      name: 'Recetas a intentar',
       creator: user1,
       recipes: [recipe3],
     );
@@ -105,7 +210,11 @@ class _MyHomePageState extends State<MyHomePage> {
       const Center(
         child: Text('Home Page'),
       ),
-      BrowsePage(showBackButton: false, recipes: allRecipes),
+      BrowsePage(
+        showBackButton: false,
+        recipes: allRecipes,
+        user: user1,
+      ),
       const Center(
         child: Text('Añadir receta'),
       ),
