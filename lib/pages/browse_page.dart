@@ -4,54 +4,66 @@ import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:flutter/material.dart';
 
 class BrowsePage extends StatefulWidget {
+  final List<Recipe> recipes;
+  final bool showBackButton;
+
   const BrowsePage({
     super.key,
-    /*required this.title*/
+    required this.recipes,
+    this.showBackButton = true,
   });
-
-  //final String title;
 
   @override
   State<StatefulWidget> createState() => _BrowsePageState();
 }
 
 class _BrowsePageState extends State<BrowsePage> {
-  final List<Recipe> _recipes = [
-    Recipe(
-      id: 1,
-      name: 'café bombóm de fresa',
-      creator: User(
-          id: 1,
-          username: 'felipe',
-          email: 'felipe@gmail.com',
-          password: '123',
-          recipes: []),
-      ingredients: '',
-      instructions:
-          'tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien',
-      image: 'assets/images/placeholder.png',
-    ),
-    Recipe(
-      id: 2,
-      name: 'café tiramisú',
-      creator: User(
-          id: 1,
-          username: 'benjamin',
-          email: 'benjamin@gmail.com',
-          password: 'abc',
-          recipes: [[]]),
-      ingredients: '',
-      instructions:
-          'añadir a la licuadora 80 ml de leche de almendras, 2 cdas de queso crema ',
-      image: 'assets/images/placeholder.png',
-    ),
-  ];
+  final TextEditingController _searchController = TextEditingController();
+
+  List<Recipe> _filteredRecipes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredRecipes = widget.recipes;
+    _searchController.addListener(_filterRecipes);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterRecipes);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterRecipes() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredRecipes = widget.recipes.where((recipe) {
+        final nameLower = recipe.name.toLowerCase();
+        return nameLower.contains(query);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''),
+        automaticallyImplyLeading: widget.showBackButton,
+        title: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+              hintText: 'Busca recetas',
+              border: InputBorder.none,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _searchController.clear();
+                  _filterRecipes();
+                },
+                icon: const Icon(Icons.clear),
+              )),
+        ),
       ),
       body: _recipeList(),
     );
@@ -59,9 +71,9 @@ class _BrowsePageState extends State<BrowsePage> {
 
   Widget _recipeList() {
     return ListView.separated(
-      itemCount: _recipes.length,
+      itemCount: _filteredRecipes.length,
       itemBuilder: (context, index) {
-        final recipe = _recipes[index];
+        final recipe = _filteredRecipes[index];
         return ListTile(
           leading: Image.asset(
             recipe.image,

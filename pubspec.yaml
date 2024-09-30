@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.1
+  flutter_svg: ^2.0.10+1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,6 +66,9 @@ flutter:
   assets:
    - assets/icons/logo.png
    - assets/icons/logoDark.png
+   - assets/icons/StarFull.png
+   - assets/icons/StarEmpty.png
+   - assets/icons/add.svg
    - assets/images/placeholder.png
   #   - images/a_dot_ham.jpeg
 
