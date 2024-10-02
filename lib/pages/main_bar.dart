@@ -209,7 +209,11 @@ class _MainBarState extends State<MainBar> {
     user1.recipeLists.addAll([createdRecipes, favouriteRecipes, recipesToTry]);
 
     _pages = [
-      HomePage(username: user1.username, recipeOfTheDay: recipe3),
+      HomePage(
+        username: user1.username,
+        recipeOfTheDay: recipe3,
+        favoriteList: user1.recipeLists[1],
+      ),
       BrowsePage(showBackButton: false, recipes: allRecipes, user: user1),
       const CreateRecipePage(),
       ListsPage(user: user1),

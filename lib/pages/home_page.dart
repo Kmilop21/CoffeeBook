@@ -1,22 +1,44 @@
+import 'package:coffeebook/models/recipe_list.dart';
+import 'package:coffeebook/pages/browse_page.dart';
+import 'package:coffeebook/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeebook/models/recipe.dart';
 
 class HomePage extends StatelessWidget {
   final String username;
   final Recipe recipeOfTheDay;
+  final RecipeList favoriteList;
 
-  const HomePage(
-      {super.key, required this.username, required this.recipeOfTheDay});
+  const HomePage({
+    super.key,
+    required this.username,
+    required this.recipeOfTheDay,
+    required this.favoriteList,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('CoffeeBook'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsPage()));
+            },
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
             Text(
               'Bienvenido $username',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -49,7 +71,9 @@ class HomePage extends StatelessWidget {
                             child: Text(
                               recipeOfTheDay.name,
                               style: const TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           )
                         ],
@@ -57,6 +81,64 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(height: 32),
+            const Text(
+              'Lista favorita',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BrowsePage(
+                      recipes: favoriteList.recipes,
+                      showBackButton: true,
+                      user: favoriteList.creator,
+                    ),
+                  ),
+                );
+              },
+              child: SizedBox(
+                width: 350,
+                height: 100,
+                child: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          favoriteList.recipes.first.image,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              favoriteList.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Creator ${favoriteList.creator.username}',
+                              style: const TextStyle(fontSize: 16),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
             )
           ],

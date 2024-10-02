@@ -1,4 +1,6 @@
 import 'package:coffeebook/models/user.dart';
+import 'package:coffeebook/pages/browse_page.dart';
+import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatefulWidget {
@@ -34,6 +36,107 @@ class _UserPageState extends State<UserPage> {
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
+            const SizedBox(height: 16),
+            Center(
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.yellow.shade100,
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: Colors.orangeAccent),
+                ),
+                child: const Text(
+                  'Calificación: 4.3/5', // Replace with dynamic value if needed
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Individual Box for Favorites
+            Center(
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade100,
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: Colors.greenAccent),
+                ),
+                child: const Text(
+                  'Favoritos: 2', // Replace with actual count
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Individual Box for Recipes
+            Center(
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: Colors.blueAccent),
+                ),
+                child: const Text(
+                  'Recetas: 1', // Replace with actual count
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+            const SizedBox(
+                height: 32), // Spacing before the popular recipe section
+            const Text(
+              'Receta más popular',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecipePage(
+                      user: widget.user,
+                      recipe: widget.user.recipeLists.first.recipes.first,
+                    ),
+                  ),
+                );
+              },
+              child: SizedBox(
+                width: 350,
+                height: 100,
+                child: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          widget.user.recipeLists.first.recipes.first.image,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.user.recipeLists.first.recipes.first.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
