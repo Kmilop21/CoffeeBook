@@ -7,6 +7,8 @@ class Recipe {
   final User creator;
   final String instructions;
   final String image;
+  final double rating;
+  final String type;
   final List<Ingredient> ingredientProduct;
 
   Recipe({
@@ -15,6 +17,8 @@ class Recipe {
     required this.creator,
     required this.instructions,
     required this.image,
+    required this.rating,
+    required this.type,
     required this.ingredientProduct,
   });
 }

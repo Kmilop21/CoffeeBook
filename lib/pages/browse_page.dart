@@ -23,6 +23,13 @@ class _BrowsePageState extends State<BrowsePage> {
   final TextEditingController _searchController = TextEditingController();
 
   List<Recipe> _filteredRecipes = [];
+  String? _selectedType;
+  final List<String> _types = [
+    'All',
+    'Espresso',
+    'Filtrado',
+    'Iced Coffee',
+  ];
 
   @override
   void initState() {
@@ -43,7 +50,10 @@ class _BrowsePageState extends State<BrowsePage> {
     setState(() {
       _filteredRecipes = widget.recipes.where((recipe) {
         final nameLower = recipe.name.toLowerCase();
-        return nameLower.contains(query);
+        final typeMatches = _selectedType == null ||
+            _selectedType == 'All' ||
+            recipe.type == _selectedType;
+        return nameLower.contains(query) && typeMatches;
       }).toList();
     });
   }
@@ -53,21 +63,48 @@ class _BrowsePageState extends State<BrowsePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: widget.showBackButton,
-        title: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-              hintText: 'Busca recetas',
-              border: InputBorder.none,
-              suffixIcon: IconButton(
-                onPressed: () {
-                  _searchController.clear();
-                  _filterRecipes();
-                },
-                icon: const Icon(Icons.clear),
-              )),
-        ),
+        title: const Text('Buscar recetas'),
       ),
-      body: _recipeList(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Busca recetas',
+                border: InputBorder.none,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _searchController.clear();
+                    _filterRecipes();
+                  },
+                  icon: const Icon(Icons.clear),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: DropdownButton<String>(
+              value: _selectedType ?? 'All',
+              items: _types.map((String type) {
+                return DropdownMenuItem(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedType = newValue;
+                  _filterRecipes();
+                });
+              },
+            ),
+          ),
+          Expanded(child: _recipeList()),
+        ],
+      ),
     );
   }
 

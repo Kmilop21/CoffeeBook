@@ -1,5 +1,6 @@
 import 'package:coffeebook/models/recipe_list.dart';
 import 'package:coffeebook/pages/browse_page.dart';
+import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:coffeebook/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeebook/models/recipe.dart';
@@ -52,31 +53,44 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    width: 350,
-                    height: 350,
-                    child: Card(
-                      elevation: 4,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              recipeOfTheDay.image,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RecipePage(
+                            recipe: recipeOfTheDay,
+                            user: favoriteList.creator,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              recipeOfTheDay.name,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      width: 350,
+                      height: 350,
+                      child: Card(
+                        elevation: 4,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                recipeOfTheDay.image,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
                               ),
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                recipeOfTheDay.name,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

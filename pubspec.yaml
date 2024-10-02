@@ -70,7 +70,14 @@ flutter:
    - assets/icons/StarEmpty.png
    - assets/icons/add.svg
    - assets/images/placeholder.png
-  #   - images/a_dot_ham.jpeg
+   - assets/images/cafetiramisu.jpg
+   - assets/images/mimosafrappe.jpg
+   - assets/images/bombomfresa.jpg
+   - assets/images/pfp1.jpg
+   - assets/images/pfp2.jpg
+   - assets/images/pfp3.jpg
+   - assets/images/pfp4.jpg
+   - assets/images/filtro.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

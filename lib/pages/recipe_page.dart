@@ -1,6 +1,8 @@
 import 'package:coffeebook/models/comment.dart';
 import 'package:coffeebook/models/ingredient.dart';
+import 'package:coffeebook/models/product.dart';
 import 'package:coffeebook/models/user.dart';
+import 'package:coffeebook/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeebook/models/recipe.dart';
 
@@ -24,9 +26,11 @@ class _RecipePage extends State<RecipePage> {
     username: 'Matias',
     email: 'mati@gmail.com',
     password: '123',
-    profilePic: 'assets/images/placeholder.png',
+    profilePic: 'assets/images/pfp4.jpg',
     recipeLists: [],
   );
+
+  late final Product sampleProduct;
 
   Widget _buildStars(int index) {
     return IconButton(
@@ -65,13 +69,22 @@ class _RecipePage extends State<RecipePage> {
           actions: [
             TextButton(
               onPressed: () {
+                _addIngredientToCart(context, ingredient);
+              },
+              child: const Text(
+                'Añadir al carrito',
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text(
-                'cerrar',
-                style: TextStyle(fontSize: 20),
+                'Cerrar',
+                style: TextStyle(fontSize: 15),
               ),
-            )
+            ),
           ],
         );
       },
@@ -170,6 +183,13 @@ class _RecipePage extends State<RecipePage> {
   @override
   void initState() {
     super.initState();
+    sampleProduct = Product(
+        id: 1,
+        name: 'Filtro de nylon',
+        description: 'A high-quality coffee machine for espresso lovers.',
+        price: 5700,
+        seller: user2,
+        image: 'assets/images/filtro.jpg');
     _comments.add(Comment(user: user2, text: 'Muy bueno, lo recomiendo mucho'));
   }
 
@@ -212,10 +232,20 @@ class _RecipePage extends State<RecipePage> {
                   backgroundImage: AssetImage(widget.recipe.creator.profilePic),
                 ),
                 const SizedBox(width: 5),
-                Text(
-                  widget.recipe.creator.username,
-                  style: const TextStyle(fontSize: 18, color: Colors.grey),
-                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserPage(user: widget.recipe.creator),
+                        ));
+                  },
+                  child: Text(
+                    widget.recipe.creator.username,
+                    style: const TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                )
               ],
             ),
             Row(
@@ -225,9 +255,9 @@ class _RecipePage extends State<RecipePage> {
                   children: List.generate(5, (index) => _buildStars(index)),
                 ),
                 const SizedBox(width: 5),
-                const Text(
-                  '3.5/5',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                Text(
+                  '${widget.recipe.rating}/5',
+                  style: const TextStyle(fontSize: 18, color: Colors.grey),
                 )
               ],
             ),
@@ -266,6 +296,30 @@ class _RecipePage extends State<RecipePage> {
             ),
             const SizedBox(height: 24),
             const Text(
+              'Productos relacionados: ',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () => _showProductDetails(context, sampleProduct),
+              child: Row(
+                children: [
+                  Image.asset(
+                    sampleProduct.image,
+                    width: 40,
+                    height: 40,
+                  ),
+                  const Icon(Icons.local_offer, size: 24),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${sampleProduct.name} - \$${sampleProduct.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+            const Text(
               'Comentarios: ',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
@@ -301,6 +355,88 @@ class _RecipePage extends State<RecipePage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showProductDetails(BuildContext context, Product product) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(product.name),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                product.image,
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 8),
+              Text('Descripción: ${product.description}'),
+              Text('Precio: ${product.price}'),
+              Text('Vendedor: ${product.seller.username}'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _addToCart(context, product);
+              },
+              child: const Text('Agregar al carrito'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _addToCart(BuildContext context, Product product) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Añadido al carrito'),
+          content: Text('${product.name} ha sido añadido al carrito'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _addIngredientToCart(BuildContext context, Ingredient ingredient) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Añadido al carrito'),
+          content: Text('${ingredient.name} ha sido añadido al carrito.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            )
+          ],
+        );
+      },
     );
   }
 }

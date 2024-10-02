@@ -2,6 +2,7 @@ import 'package:coffeebook/models/ingredient.dart';
 import 'package:coffeebook/models/recipe_list.dart';
 import 'package:coffeebook/models/user.dart';
 import 'package:coffeebook/models/recipe.dart';
+import 'package:coffeebook/pages/cart_page.dart';
 import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/lists_page.dart';
 import 'package:coffeebook/pages/user_page.dart';
@@ -25,7 +26,7 @@ class _MainBarState extends State<MainBar> {
     username: 'Camilo',
     email: 'cam.provoste@gmail.com',
     password: '1321',
-    profilePic: 'assets/images/placeholder.png',
+    profilePic: 'assets/images/pfp1.jpg',
     recipeLists: [],
   );
   User user2 = User(
@@ -33,7 +34,7 @@ class _MainBarState extends State<MainBar> {
     username: 'Benjamin',
     email: 'benjamin@gmail.com',
     password: 'abc',
-    profilePic: 'assets/images/placeholder.png',
+    profilePic: 'assets/images/pfp2.jpg',
     recipeLists: [],
   );
   User user3 = User(
@@ -41,7 +42,7 @@ class _MainBarState extends State<MainBar> {
     username: 'Felipe',
     email: 'felipe@gmail.com',
     password: '123',
-    profilePic: 'assets/images/placeholder.png',
+    profilePic: 'assets/images/pfp3.jpg',
     recipeLists: [],
   );
 
@@ -59,7 +60,9 @@ class _MainBarState extends State<MainBar> {
       creator: user1,
       instructions:
           'Tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien...',
-      image: 'assets/images/placeholder.png',
+      image: 'assets/images/bombomfresa.jpg',
+      rating: 2,
+      type: 'Espresso',
       ingredientProduct: [
         Ingredient(
             name: 'Fresas maduras',
@@ -93,60 +96,62 @@ class _MainBarState extends State<MainBar> {
       creator: user2,
       instructions:
           'Añadir a la licuadora 80 ml de leche de almendras\n Añadir 2 cdas de queso crema...',
-      image: 'assets/images/placeholder.png',
+      image: 'assets/images/cafetiramisu.jpg',
+      rating: 3.5,
+      type: 'Filtrado',
       ingredientProduct: [
         Ingredient(
           name: 'Queso crema',
-          type: 'Dairy',
+          type: 'Lacteo',
           price: 3000,
           seller: user2,
           amount: '2 cdas',
         ),
         Ingredient(
           name: 'Leche de almendras',
-          type: 'Dairy',
+          type: 'Lacteo',
           price: 2000,
           seller: user2,
           amount: '80 ml',
         ),
         Ingredient(
           name: 'Miel',
-          type: 'Sweetener',
+          type: 'Dulce',
           price: 2000,
           seller: user2,
           amount: '1 cda',
         ),
         Ingredient(
           name: 'Cacao en polvo',
-          type: 'Powder',
+          type: 'Cacao en polvo',
           price: 2000,
           seller: user2,
           amount: 'Al gusto',
         ),
         Ingredient(
           name: 'Hielo',
-          type: 'Ice',
+          type: 'Hielo',
           price: 1500,
           seller: user2,
           amount: 'Al gusto',
         ),
         Ingredient(
           name: 'Café Matiz Ámbar',
-          type: 'Coffee',
+          type: 'Café',
           price: 5000,
           seller: user2,
           amount: '100 g',
         ),
         Ingredient(
           name: 'Agua',
-          type: 'Liquid',
+          type: 'Liquido',
           price: 0.0,
           seller: user2,
           amount: '300 ml',
         ),
         Ingredient(
           name: 'Galletas Ducales Tentación',
-          type: 'Decoration',
+          type: 'Agregado',
           price: 2000,
           seller: user2,
           amount: 'Para decorar',
@@ -159,11 +164,13 @@ class _MainBarState extends State<MainBar> {
       creator: user3,
       instructions:
           'En una licuadora, agrega 1 taza de cascos de mandarina congelados\nAgrega 2 oz de vino proseco y licúa...',
-      image: 'assets/images/placeholder.png',
+      image: 'assets/images/mimosafrappe.jpg',
+      rating: 4.9,
+      type: 'Iced Coffee',
       ingredientProduct: [
         Ingredient(
           name: 'Cascos de mandarina congelados',
-          type: 'Fruit',
+          type: 'Fruta',
           price: 4000,
           seller: user3,
           amount: '1 taza',
@@ -177,7 +184,7 @@ class _MainBarState extends State<MainBar> {
         ),
         Ingredient(
           name: 'Café Matiz Escarlata',
-          type: 'Coffee',
+          type: 'Cafe',
           price: 5000,
           seller: user3,
           amount: '1/3 taza',
@@ -207,6 +214,8 @@ class _MainBarState extends State<MainBar> {
     List<Recipe> allRecipes = [recipe1, recipe2, recipe3];
 
     user1.recipeLists.addAll([createdRecipes, favouriteRecipes, recipesToTry]);
+    user2.recipeLists.addAll([createdRecipes, favouriteRecipes, recipesToTry]);
+    user3.recipeLists.addAll([createdRecipes, favouriteRecipes, recipesToTry]);
 
     _pages = [
       HomePage(
@@ -217,6 +226,7 @@ class _MainBarState extends State<MainBar> {
       BrowsePage(showBackButton: false, recipes: allRecipes, user: user1),
       const CreateRecipePage(),
       ListsPage(user: user1),
+      CartPage(),
       UserPage(user: user1),
     ];
   }
@@ -237,11 +247,11 @@ class _MainBarState extends State<MainBar> {
         items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Buscar',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -253,14 +263,18 @@ class _MainBarState extends State<MainBar> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'Lists',
+            label: 'Listas',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrito',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
               radius: 16,
               backgroundImage: AssetImage(user1.profilePic),
             ),
-            label: 'User',
+            label: user1.username,
           ),
         ],
         selectedItemColor: Colors.purple,
