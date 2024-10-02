@@ -1,4 +1,4 @@
-import 'package:coffeebook/pages/home_screen.dart';
+import 'package:coffeebook/pages/main_bar.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -85,7 +85,7 @@ class _RegisterState extends State<Register> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MyHomePage(title: 'title'),
+                      builder: (context) => const MainBar(title: 'title'),
                     ),
                   );
                 },

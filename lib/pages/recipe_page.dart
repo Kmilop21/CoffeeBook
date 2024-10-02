@@ -1,5 +1,4 @@
 import 'package:coffeebook/models/ingredient.dart';
-import 'package:coffeebook/models/recipe_list.dart';
 import 'package:coffeebook/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeebook/models/recipe.dart';
@@ -34,7 +33,7 @@ class _RecipePage extends State<RecipePage> {
     );
   }
 
-  void _ShowIngredientDetails(BuildContext context, Ingredient ingredient) {
+  void showIngredientDetails(BuildContext context, Ingredient ingredient) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -112,10 +111,30 @@ class _RecipePage extends State<RecipePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text('Receta compartida'),
+          title: const Text('Receta compartida'),
           actions: [
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteRecipe(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Receta eliminada'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
               child: const Text('Cerrar'),
@@ -132,6 +151,10 @@ class _RecipePage extends State<RecipePage> {
       appBar: AppBar(
         title: const Text(''),
         actions: [
+          IconButton(
+            onPressed: () => _deleteRecipe(context),
+            icon: const Icon(Icons.delete),
+          ),
           IconButton(
             onPressed: () => _addToList(context),
             icon: const Icon(Icons.add),
@@ -189,7 +212,7 @@ class _RecipePage extends State<RecipePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: widget.recipe.ingredientProduct.map((ingredient) {
                 return GestureDetector(
-                  onTap: () => _ShowIngredientDetails(context, ingredient),
+                  onTap: () => showIngredientDetails(context, ingredient),
                   child: Row(
                     children: [
                       const Icon(Icons.circle, size: 12),

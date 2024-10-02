@@ -1,4 +1,3 @@
-import 'package:coffeebook/models/recipe.dart';
 import 'package:coffeebook/models/recipe_list.dart';
 
 class User {

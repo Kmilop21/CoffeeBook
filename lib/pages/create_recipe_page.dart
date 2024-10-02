@@ -1,5 +1,4 @@
 import 'package:coffeebook/models/ingredient.dart';
-import 'package:coffeebook/models/recipe.dart';
 import 'package:coffeebook/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,9 +16,8 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _instructionsController = TextEditingController();
-  final TextEditingController _ingredientsController = TextEditingController();
 
-  List<Ingredient> _ingredients = [];
+  final List<Ingredient> _ingredients = [];
 
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -175,15 +173,15 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   }
 
   void _showAddIngredientDialog() {
-    final TextEditingController _ingredientNameController =
+    final TextEditingController ingredientNameController =
         TextEditingController();
-    final TextEditingController _ingredientAmountController =
+    final TextEditingController ingredientAmountController =
         TextEditingController();
-    final TextEditingController _ingredientTypeController =
+    final TextEditingController ingredientTypeController =
         TextEditingController();
-    final TextEditingController _ingredientPriceController =
+    final TextEditingController ingredientPriceController =
         TextEditingController();
-    final TextEditingController _ingredientSellerController =
+    final TextEditingController ingredientSellerController =
         TextEditingController();
 
     showDialog(
@@ -196,25 +194,25 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  controller: _ingredientNameController,
+                  controller: ingredientNameController,
                   decoration: const InputDecoration(
                       labelText: 'Nombre del ingrediente'),
                 ),
                 const SizedBox(height: 8),
                 TextField(
-                  controller: _ingredientAmountController,
+                  controller: ingredientAmountController,
                   decoration: const InputDecoration(labelText: 'Cantidad'),
                 ),
                 TextField(
-                  controller: _ingredientNameController,
+                  controller: ingredientNameController,
                   decoration: const InputDecoration(labelText: 'Tipo'),
                 ),
                 TextField(
-                  controller: _ingredientNameController,
+                  controller: ingredientNameController,
                   decoration: const InputDecoration(labelText: 'Precio'),
                 ),
                 TextField(
-                  controller: _ingredientNameController,
+                  controller: ingredientNameController,
                   decoration: const InputDecoration(labelText: 'Vendedor'),
                 ),
               ],
@@ -234,14 +232,14 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                 setState(
                   () {
                     _ingredients.add(Ingredient(
-                        name: _ingredientNameController.text,
-                        amount: _ingredientAmountController.text,
-                        type: _ingredientTypeController.text,
+                        name: ingredientNameController.text,
+                        amount: ingredientAmountController.text,
+                        type: ingredientTypeController.text,
                         price:
-                            double.tryParse(_ingredientPriceController.text) ??
+                            double.tryParse(ingredientPriceController.text) ??
                                 0.0,
                         seller: User(
-                            username: _ingredientSellerController.text,
+                            username: ingredientSellerController.text,
                             id: 0,
                             email: "",
                             password: "",
