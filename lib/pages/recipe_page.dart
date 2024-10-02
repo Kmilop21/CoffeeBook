@@ -47,7 +47,8 @@ class _RecipePage extends State<RecipePage> {
               Text('Cantidad: ${ingredient.amount}'),
               Text('Tipo: ${ingredient.type}'),
               Text('Precio: ${ingredient.price}'),
-              Text('Vendedor: ${ingredient.seller.username}'),
+              Text(
+                  'Vendedor: ${ingredient.seller?.username ?? "No especificado"}'),
             ],
           ),
           actions: [

@@ -1,12 +1,13 @@
 import 'package:coffeebook/models/ingredient.dart';
 import 'package:coffeebook/models/recipe_list.dart';
-import 'package:coffeebook/pages/lists_page.dart';
 import 'package:coffeebook/models/user.dart';
 import 'package:coffeebook/models/recipe.dart';
+import 'package:coffeebook/pages/lists_page.dart';
 import 'package:coffeebook/pages/user_page.dart';
-import 'package:flutter/material.dart';
 import 'package:coffeebook/pages/browse_page.dart';
+import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -215,9 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
         recipes: allRecipes,
         user: user1,
       ),
-      const Center(
-        child: Text('Añadir receta'),
-      ),
+      const CreateRecipePage(),
       ListsPage(user: user1),
       UserPage(user: user1),
     ];
