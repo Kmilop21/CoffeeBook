@@ -63,7 +63,7 @@ class _MainBarState extends State<MainBar> {
       image: 'assets/images/bombomfresa.jpg',
       rating: 2,
       type: 'Espresso',
-      ingredientProduct: [
+      ingredients: [
         Ingredient(
             name: 'Fresas maduras',
             type: 'Fruta',
@@ -99,7 +99,7 @@ class _MainBarState extends State<MainBar> {
       image: 'assets/images/cafetiramisu.jpg',
       rating: 3.5,
       type: 'Filtrado',
-      ingredientProduct: [
+      ingredients: [
         Ingredient(
           name: 'Queso crema',
           type: 'Lacteo',
@@ -167,7 +167,7 @@ class _MainBarState extends State<MainBar> {
       image: 'assets/images/mimosafrappe.jpg',
       rating: 4.9,
       type: 'Iced Coffee',
-      ingredientProduct: [
+      ingredients: [
         Ingredient(
           name: 'Cascos de mandarina congelados',
           type: 'Fruta',

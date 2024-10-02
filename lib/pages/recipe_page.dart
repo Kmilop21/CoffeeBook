@@ -268,7 +268,7 @@ class _RecipePage extends State<RecipePage> {
             const SizedBox(height: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: widget.recipe.ingredientProduct.map((ingredient) {
+              children: widget.recipe.ingredients.map((ingredient) {
                 return GestureDetector(
                   onTap: () => showIngredientDetails(context, ingredient),
                   child: Row(
@@ -324,7 +324,6 @@ class _RecipePage extends State<RecipePage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            // Display existing comments
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -339,7 +338,6 @@ class _RecipePage extends State<RecipePage> {
               },
             ),
             const SizedBox(height: 16),
-            // Input field for new comments
             TextField(
               controller: _commentController,
               decoration: const InputDecoration(

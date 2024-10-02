@@ -4,12 +4,12 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  State<StatefulWidget> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _receiveNotifications = false; // State for receiving notifications
-  bool _collectData = false; // State for collecting data
+  bool _receiveNotifications = false;
+  bool _collectData = false;
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,10 @@ import 'package:coffeebook/models/user.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatelessWidget {
+  CartPage({
+    super.key,
+  });
+
   final Ingredient ingrediente = Ingredient(
     name: 'Cascos de mandarina congelados',
     type: 'Fruta',

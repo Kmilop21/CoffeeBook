@@ -1,5 +1,4 @@
 import 'package:coffeebook/models/user.dart';
-import 'package:coffeebook/pages/browse_page.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:flutter/material.dart';
 
@@ -46,13 +45,12 @@ class _UserPageState extends State<UserPage> {
                   border: Border.all(color: Colors.orangeAccent),
                 ),
                 child: const Text(
-                  'Calificación: 4.3/5', // Replace with dynamic value if needed
+                  'Calificación: 4.3/5',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            // Individual Box for Favorites
             Center(
               child: Container(
                 padding: const EdgeInsets.all(16.0),
@@ -62,13 +60,12 @@ class _UserPageState extends State<UserPage> {
                   border: Border.all(color: Colors.greenAccent),
                 ),
                 child: const Text(
-                  'Favoritos: 2', // Replace with actual count
+                  'Favoritos: 2',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            // Individual Box for Recipes
             Center(
               child: Container(
                 padding: const EdgeInsets.all(16.0),
@@ -78,13 +75,12 @@ class _UserPageState extends State<UserPage> {
                   border: Border.all(color: Colors.blueAccent),
                 ),
                 child: const Text(
-                  'Recetas: 1', // Replace with actual count
+                  'Recetas: 1',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
             ),
-            const SizedBox(
-                height: 32), // Spacing before the popular recipe section
+            const SizedBox(height: 32),
             const Text(
               'Receta más popular',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

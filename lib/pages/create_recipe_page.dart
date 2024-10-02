@@ -204,15 +204,15 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                   decoration: const InputDecoration(labelText: 'Cantidad'),
                 ),
                 TextField(
-                  controller: ingredientNameController,
+                  controller: ingredientTypeController,
                   decoration: const InputDecoration(labelText: 'Tipo'),
                 ),
                 TextField(
-                  controller: ingredientNameController,
+                  controller: ingredientPriceController,
                   decoration: const InputDecoration(labelText: 'Precio'),
                 ),
                 TextField(
-                  controller: ingredientNameController,
+                  controller: ingredientSellerController,
                   decoration: const InputDecoration(labelText: 'Vendedor'),
                 ),
               ],
@@ -221,14 +221,12 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
           actions: [
             TextButton(
               onPressed: () {
-                // Cancel button
                 Navigator.of(context).pop();
               },
               child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () {
-                // Add the new ingredient to the list
                 setState(
                   () {
                     _ingredients.add(Ingredient(
@@ -247,7 +245,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                             recipeLists: [])));
                   },
                 );
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
               child: const Text('Añadir'),
             ),

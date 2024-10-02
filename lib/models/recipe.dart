@@ -9,7 +9,7 @@ class Recipe {
   final String image;
   final double rating;
   final String type;
-  final List<Ingredient> ingredientProduct;
+  final List<Ingredient> ingredients;
 
   Recipe({
     required this.id,
@@ -19,6 +19,6 @@ class Recipe {
     required this.image,
     required this.rating,
     required this.type,
-    required this.ingredientProduct,
+    required this.ingredients,
   });
 }
