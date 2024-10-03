@@ -15,3 +15,7 @@ Los usuarios quieren poder calificar las recetas de otros usuarios.
 Los usuarios necesitan poder dejar comentarios en las recetas para dar su opinión
 
 Los usuarios quieren poder comprar ingredientes o productos relacionados a la receta que están viendo
+
+### Link de video
+
+[Link](https://youtu.be/rAueJMXdoxA)
