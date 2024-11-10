@@ -1,3 +1,4 @@
+import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/login.dart';
 import 'package:flutter/material.dart';
 //import 'pages/home_screen.dart';
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const Login(),
+      home: const HomePage(
+        username: 'Camilo',
+      ),
     );
   }
 }

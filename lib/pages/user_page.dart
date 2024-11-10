@@ -1,4 +1,4 @@
-import 'package:coffeebook/models/user.dart';
+import 'package:coffeebook/utils/user_db.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:flutter/material.dart';
 

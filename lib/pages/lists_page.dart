@@ -36,18 +36,18 @@ class _ListsPageState extends State<ListsPage> {
           ),
           title: Text(recipeList.name),
           subtitle: Text(recipeList.creator.username),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BrowsePage(
-                  recipes: recipeList.recipes,
-                  showBackButton: true,
-                  user: widget.user,
-                ),
-              ),
-            );
-          },
+          // onTap: () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => BrowsePage(
+          //         /*recipes: recipeList.recipes,*/
+          //         showBackButton: true,
+          //         user: widget.user,
+          //       ),
+          //     ),
+          //   );
+          // },
         );
       },
       separatorBuilder: (context, index) {

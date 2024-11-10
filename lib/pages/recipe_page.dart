@@ -1,10 +1,10 @@
-import 'package:coffeebook/models/comment.dart';
-import 'package:coffeebook/models/ingredient.dart';
-import 'package:coffeebook/models/product.dart';
-import 'package:coffeebook/models/user.dart';
+import 'package:coffeebook/utils/comment_db.dart';
+import 'package:coffeebook/utils/ingredient_db.dart';
+import 'package:coffeebook/utils/product_db.dart';
+import 'package:coffeebook/utils/user_db.dart';
+import 'package:coffeebook/utils/recipe_db.dart';
 import 'package:coffeebook/pages/user_page.dart';
 import 'package:flutter/material.dart';
-import 'package:coffeebook/models/recipe.dart';
 
 class RecipePage extends StatefulWidget {
   final Recipe recipe;
@@ -62,8 +62,6 @@ class _RecipePage extends State<RecipePage> {
               Text('Cantidad: ${ingredient.amount}'),
               Text('Tipo: ${ingredient.type}'),
               Text('Precio: ${ingredient.price}'),
-              Text(
-                  'Vendedor: ${ingredient.seller?.username ?? "No especificado"}'),
             ],
           ),
           actions: [
@@ -173,8 +171,10 @@ class _RecipePage extends State<RecipePage> {
   void _addComment() {
     if (_commentController.text.isNotEmpty) {
       setState(() {
-        _comments
-            .add(Comment(user: widget.user, text: _commentController.text));
+        _comments.add(Comment(
+            user: widget.user,
+            text: _commentController.text,
+            recipeId: widget.recipe.id));
         _commentController.clear();
       });
     }
@@ -190,7 +190,10 @@ class _RecipePage extends State<RecipePage> {
         price: 5700,
         seller: user2,
         image: 'assets/images/filtro.jpg');
-    _comments.add(Comment(user: user2, text: 'Muy bueno, lo recomiendo mucho'));
+    _comments.add(Comment(
+        user: user2,
+        text: 'Muy bueno, lo recomiendo mucho',
+        recipeId: widget.recipe.id));
   }
 
   @override
@@ -270,18 +273,18 @@ class _RecipePage extends State<RecipePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: widget.recipe.ingredients.map((ingredient) {
                 return GestureDetector(
-                  onTap: () => showIngredientDetails(context, ingredient),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.circle, size: 12),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${ingredient.name} (${ingredient.amount})',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                );
+                    // onTap: () => showIngredientDetails(context, ingredient),
+                    // child: Row(
+                    //   children: [
+                    //     const Icon(Icons.circle, size: 12),
+                    //     const SizedBox(width: 4),
+                    //     Text(
+                    //       '${ingredient.name} (${ingredient.amount})',
+                    //       style: const TextStyle(fontSize: 16),
+                    //     ),
+                    //   ],
+                    // ),
+                    );
               }).toList(),
             ),
             const SizedBox(height: 24),
