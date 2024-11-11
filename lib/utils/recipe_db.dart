@@ -203,4 +203,11 @@ class RecipeDbHelper {
     // Convert maps to Recipe objects
     return recentMaps.map((map) => Recipe.fromMap(map)).toList();
   }
+
+  static Future<List<String>> getAllRecipeNames() async {
+    final db = await RecipeDbHelper.database();
+    final List<Map<String, dynamic>> results =
+        await db.query('recipes', columns: ['name']);
+    return results.map((result) => result['name'] as String).toList();
+  }
 }

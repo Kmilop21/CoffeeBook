@@ -60,9 +60,19 @@ class MyBaristaPageState extends State<MyBaristaPage> {
     final String jsonString =
         await rootBundle.loadString('assets/samples.json');
     final Map<String, dynamic> jsonData = json.decode(jsonString);
+
+    // Load sample recipes from JSON
+    List<SampleRecipe> loadedSampleRecipes = (jsonData['recipes'] as List)
+        .map((data) => SampleRecipe.fromMap(data))
+        .toList();
+
+    // Get the list of recipe names that already exist in the database
+    List<String> existingRecipeNames = await RecipeDbHelper.getAllRecipeNames();
+
+    // Filter out recipes that are already in the database
     setState(() {
-      sampleRecipes = (jsonData['recipes'] as List)
-          .map((data) => SampleRecipe.fromMap(data))
+      sampleRecipes = loadedSampleRecipes
+          .where((sample) => !existingRecipeNames.contains(sample.name))
           .toList();
     });
   }
@@ -171,13 +181,20 @@ class MyBaristaPageState extends State<MyBaristaPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: sampleRecipes.length,
-          itemBuilder: (context, index) {
-            final recipe = sampleRecipes[index];
-            return _buildRecipeCard(recipe);
-          },
-        ),
+        child: sampleRecipes.isEmpty
+            ? const Center(
+                child: Text(
+                  "No hay recetas de la barista",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              )
+            : ListView.builder(
+                itemCount: sampleRecipes.length,
+                itemBuilder: (context, index) {
+                  final recipe = sampleRecipes[index];
+                  return _buildRecipeCard(recipe);
+                },
+              ),
       ),
     );
   }
