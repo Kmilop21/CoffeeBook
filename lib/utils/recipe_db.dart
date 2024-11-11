@@ -20,6 +20,26 @@ class Recipe {
     required this.preparationTime,
   });
 
+  Recipe copyWith({
+    int? id,
+    String? name,
+    String? instructions,
+    String? image,
+    String? type,
+    List<String>? ingredients,
+    int? preparationTime,
+  }) {
+    return Recipe(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      instructions: instructions ?? this.instructions,
+      image: image ?? this.image,
+      type: type ?? this.type,
+      ingredients: ingredients ?? this.ingredients,
+      preparationTime: preparationTime ?? this.preparationTime,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/my_recipes.dart';
 import 'package:flutter/material.dart';
@@ -132,6 +133,20 @@ class MyBaristaPageState extends State<MyBaristaPage> {
                   MaterialPageRoute(
                     builder: (context) =>
                         MyRecipesPage(username: widget.username),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
+              title: const Text('Crear receta'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CreateRecipePage(username: widget.username),
                   ),
                 );
               },

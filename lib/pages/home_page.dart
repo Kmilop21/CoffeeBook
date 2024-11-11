@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:coffeebook/utils/recipe_db.dart';
 import 'package:coffeebook/pages/settings_page.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
@@ -18,7 +21,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  Recipe? recipeOfTheDay;
   List<Recipe> recentRecipes = [];
 
   @override
@@ -28,9 +30,8 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchRecipes() async {
-    // Fetch recent recipes from the database
     recentRecipes = await RecipeDbHelper.getRecentRecipes();
-    setState(() {}); // Trigger UI update
+    setState(() {}); // Update the UI with the latest data
   }
 
   @override
@@ -74,7 +75,7 @@ class HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomePage(username: 'Camilo'),
+                    builder: (context) => HomePage(username: widget.username),
                   ),
                 );
               },
@@ -89,6 +90,20 @@ class HomePageState extends State<HomePage> {
                   MaterialPageRoute(
                     builder: (context) =>
                         MyRecipesPage(username: widget.username),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
+              title: const Text('Crear receta'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CreateRecipePage(username: widget.username),
                   ),
                 );
               },
@@ -135,7 +150,9 @@ class HomePageState extends State<HomePage> {
                             recipe: recipe,
                           ),
                         ),
-                      );
+                      ).then((_) {
+                        fetchRecipes();
+                      });
                     },
                     child: RecipeCard(recipe: recipe),
                   )),
@@ -168,12 +185,31 @@ class RecipeCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Image.asset(
-                recipe.image,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-              ),
+              recipe.image.isNotEmpty
+                  ? (recipe.image.startsWith("assets/")
+                      ? SizedBox(
+                          width: 75,
+                          height: 75,
+                          child: Image.asset(
+                            recipe.image,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : SizedBox(
+                          width: 75,
+                          height: 75,
+                          child: File(recipe.image).existsSync()
+                              ? Image.file(
+                                  File(recipe.image),
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/placeholder.png',
+                                  fit: BoxFit.cover,
+                                ),
+                        ))
+                  : const Icon(Icons.image,
+                      size: 100), // Fallback icon if no image
               const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

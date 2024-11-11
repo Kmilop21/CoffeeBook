@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
@@ -22,8 +25,12 @@ class MyRecipesPageState extends State<MyRecipesPage> {
   @override
   void initState() {
     super.initState();
-    _recipes =
-        RecipeDbHelper.getRecipes(); // Fetch the recipes from the database
+    fetchRecipes(); // Fetch the recipes from the database
+  }
+
+  Future<void> fetchRecipes() async {
+    _recipes = RecipeDbHelper.getRecipes();
+    setState(() {}); // Trigger UI update
   }
 
   @override
@@ -77,6 +84,20 @@ class MyRecipesPageState extends State<MyRecipesPage> {
             ),
             ListTile(
               leading: const Icon(Icons.coffee),
+              title: const Text('Crear receta'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CreateRecipePage(username: widget.username),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
               title: const Text('Mi Barista'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -115,7 +136,21 @@ class MyRecipesPageState extends State<MyRecipesPage> {
               Recipe recipe = recipes[index];
               return Card(
                 child: ListTile(
-                  leading: Image.asset(recipe.image),
+                  leading: recipe.image.isNotEmpty
+                      ? (recipe.image.startsWith("assets/")
+                          ? Image.asset(
+                              recipe.image,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(recipe.image),
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ))
+                      : const Icon(Icons.image), // Fallback in case of no image
                   title: Text(recipe.name),
                   subtitle: Text(recipe.type),
                   onTap: () {
@@ -124,7 +159,9 @@ class MyRecipesPageState extends State<MyRecipesPage> {
                       MaterialPageRoute(
                         builder: (context) => RecipePage(recipe: recipe),
                       ),
-                    );
+                    ).then((_) {
+                      fetchRecipes(); // Refresh recipes after returning
+                    });
                   },
                 ),
               );
