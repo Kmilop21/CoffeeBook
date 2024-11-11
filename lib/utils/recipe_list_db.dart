@@ -5,13 +5,11 @@ import 'package:coffeebook/utils/recipe_db.dart';
 class RecipeList {
   final int id;
   final String name;
-  final int creatorId; // Reference to User ID
   final List<Recipe> recipes;
 
   RecipeList({
     required this.id,
     required this.name,
-    required this.creatorId,
     required this.recipes,
   });
 
@@ -19,7 +17,6 @@ class RecipeList {
     return {
       'id': id,
       'name': name,
-      'creatorId': creatorId,
       'recipes': recipes.map((recipe) => recipe.id).join(','),
     };
   }
@@ -28,7 +25,6 @@ class RecipeList {
     return RecipeList(
       id: map['id'],
       name: map['name'],
-      creatorId: map['creatorId'],
       recipes: recipes,
     );
   }
@@ -51,7 +47,6 @@ class RecipeListDbHelper {
         await db.execute('''CREATE TABLE recipes(
           id INTEGER PRIMARY KEY,
           name TEXT,
-          creator TEXT,
           instructions TEXT,
           image TEXT,
           rating REAL,
@@ -63,7 +58,6 @@ class RecipeListDbHelper {
         await db.execute('''CREATE TABLE recipe_lists(
           id INTEGER PRIMARY KEY,
           name TEXT,
-          creatorId INTEGER,
           recipes TEXT
         )''');
 
@@ -100,7 +94,6 @@ class RecipeListDbHelper {
     final db = await RecipeListDbHelper.database();
     final List<Map<String, dynamic>> maps = await db.query(
       'recipe_lists',
-      where: 'creatorId = ?',
       whereArgs: [userId],
     );
 
@@ -135,7 +128,6 @@ class RecipeListDbHelper {
       return Recipe(
         id: maps.first['id'],
         name: maps.first['name'],
-        creator: maps.first['creator'],
         instructions: maps.first['instructions'],
         image: maps.first['image'],
         rating: maps.first['rating'],

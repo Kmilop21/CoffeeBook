@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 
 class RecipePage extends StatefulWidget {
   final Recipe recipe;
-  final User user;
 
-  const RecipePage({super.key, required this.recipe, required this.user});
+  const RecipePage({
+    super.key,
+    required this.recipe,
+  });
 
   @override
   State<RecipePage> createState() => _RecipePage();
@@ -20,15 +22,6 @@ class _RecipePage extends State<RecipePage> {
   int _rating = 0;
   final List<Comment> _comments = [];
   final TextEditingController _commentController = TextEditingController();
-
-  final User user2 = User(
-    id: 4,
-    username: 'Matias',
-    email: 'mati@gmail.com',
-    password: '123',
-    profilePic: 'assets/images/pfp4.jpg',
-    recipeLists: [],
-  );
 
   late final Product sampleProduct;
 
@@ -95,26 +88,8 @@ class _RecipePage extends State<RecipePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Agregar a lista'),
-          content: SizedBox(
+          content: const SizedBox(
             width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.user.recipeLists.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(widget.user.recipeLists[index].name),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            'Añadido a:  ${widget.user.recipeLists[index].name}'),
-                      ),
-                    );
-                    Navigator.of(context).pop();
-                  },
-                );
-              },
-            ),
           ),
           actions: [
             TextButton(
@@ -168,32 +143,9 @@ class _RecipePage extends State<RecipePage> {
     );
   }
 
-  void _addComment() {
-    if (_commentController.text.isNotEmpty) {
-      setState(() {
-        _comments.add(Comment(
-            user: widget.user,
-            text: _commentController.text,
-            recipeId: widget.recipe.id));
-        _commentController.clear();
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    sampleProduct = Product(
-        id: 1,
-        name: 'Filtro de nylon',
-        description: 'A high-quality coffee machine for espresso lovers.',
-        price: 5700,
-        seller: user2,
-        image: 'assets/images/filtro.jpg');
-    _comments.add(Comment(
-        user: user2,
-        text: 'Muy bueno, lo recomiendo mucho',
-        recipeId: widget.recipe.id));
   }
 
   @override
@@ -226,30 +178,6 @@ class _RecipePage extends State<RecipePage> {
             Text(
               widget.recipe.name,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: AssetImage(widget.recipe.creator.profilePic),
-                ),
-                const SizedBox(width: 5),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              UserPage(user: widget.recipe.creator),
-                        ));
-                  },
-                  child: Text(
-                    widget.recipe.creator.username,
-                    style: const TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                )
-              ],
             ),
             Row(
               children: [
@@ -347,11 +275,6 @@ class _RecipePage extends State<RecipePage> {
                 labelText: 'Escribe un comentario...',
                 border: OutlineInputBorder(),
               ),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: _addComment,
-              child: const Text('Agregar Comentario'),
             ),
           ],
         ),

@@ -1,11 +1,9 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:coffeebook/utils/user_db.dart';
 
 class Recipe {
   final int id;
   final String name;
-  final User creator;
   final String instructions;
   final String image;
   final double rating;
@@ -16,7 +14,6 @@ class Recipe {
   Recipe({
     required this.id,
     required this.name,
-    required this.creator,
     required this.instructions,
     required this.image,
     required this.rating,
@@ -29,7 +26,6 @@ class Recipe {
     return {
       'id': id,
       'name': name,
-      'creator': creator.id,
       'instructions': instructions,
       'image': image,
       'rating': rating,
@@ -39,21 +35,16 @@ class Recipe {
     };
   }
 
-  static Future<Recipe> fromMap(Map<String, dynamic> map) async {
-    // Fetch User based on creator_id
-    final creator = await UserDbHelper.getUser(map['creator_id']);
-    // Fetch Ingredient list based on comma-separated IDs
-    final ingredients = (map['ingredients'] as String).split('|');
-
+  // Create a Recipe from a database Map
+  static Recipe fromMap(Map<String, dynamic> map) {
     return Recipe(
       id: map['id'],
       name: map['name'],
-      creator: creator,
       instructions: map['instructions'],
       image: map['image'],
       rating: map['rating'],
       type: map['type'],
-      ingredients: ingredients,
+      ingredients: (map['ingredients'] as String).split('|'), // Convert to list
       preparationTime: map['preparationTime'],
     );
   }
@@ -68,7 +59,6 @@ class RecipeDbHelper {
         CREATE TABLE recipes(
           id INTEGER PRIMARY KEY,
           name TEXT,
-          creator_id INTEGER,
           instructions TEXT,
           image TEXT,
           rating REAL,
@@ -101,33 +91,13 @@ class RecipeDbHelper {
     );
   }
 
+  // Retrieve all recipes from the database
   static Future<List<Recipe>> getRecipes() async {
     final db = await RecipeDbHelper.database();
     final List<Map<String, dynamic>> maps = await db.query('recipes');
-    List<Recipe> recipes = [];
 
-    for (var map in maps) {
-      // Fetch the User object based on the creator ID
-      final creatorId = map['creator'] as int;
-      final user = await UserDbHelper.getUser(creatorId);
-
-      final ingredients = (map['ingredients'] as String).split('|');
-
-      // Create the Recipe instance
-      recipes.add(Recipe(
-        id: map['id'],
-        name: map['name'],
-        creator: user,
-        instructions: map['instructions'],
-        image: map['image'],
-        rating: map['rating'],
-        type: map['type'],
-        ingredients: ingredients,
-        preparationTime: map['preparationTime'],
-      ));
-    }
-
-    return recipes;
+    // Convert each map to a Recipe object
+    return maps.map((map) => Recipe.fromMap(map)).toList();
   }
 
   static Future<void> updateRecipe(Recipe recipe) async {
@@ -184,7 +154,6 @@ class RecipeDbHelper {
     ''');
 
     // Convert maps to Recipe objects
-    return Future.wait(
-        recentMaps.map((map) async => await Recipe.fromMap(map)).toList());
+    return recentMaps.map((map) => Recipe.fromMap(map)).toList();
   }
 }

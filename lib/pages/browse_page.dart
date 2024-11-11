@@ -153,14 +153,12 @@ class _BrowsePageState extends State<BrowsePage> {
             fit: BoxFit.cover,
           ),
           title: Text(recipe.name),
-          subtitle: Text(recipe.creator.username),
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => RecipePage(
                   recipe: recipe,
-                  user: widget.user,
                 ),
               ),
             );

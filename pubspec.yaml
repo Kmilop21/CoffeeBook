@@ -80,7 +80,7 @@ flutter:
    - assets/images/pfp3.jpg
    - assets/images/pfp4.jpg
    - assets/images/filtro.jpg
-   - assets/ejemplos.json
+   - assets/samples.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

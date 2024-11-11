@@ -1,7 +1,6 @@
 {
   "recipes": [
     {
-      "id": 1,
       "name": "café bombóm de fresa",
       "instructions": "Tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien...",
       "image": "assets/images/bombomfresa.jpg",
@@ -16,7 +15,6 @@
       "preparationTime": 10
     },
     {
-      "id": 2,
       "name": "café tiramisú",
       "instructions": "Añadir a la licuadora 80 ml de leche de almendras\n Añadir 2 cdas de queso crema...",
       "image": "assets/images/cafetiramisu.jpg",
@@ -35,7 +33,6 @@
       "preparationTime": 15
     },
     {
-      "id": 3,
       "name": "Mimosa frappé de café",
       "instructions": "En una licuadora, agrega 1 taza de cascos de mandarina congelados\nAgrega 2 oz de vino proseco y licúa...",
       "image": "assets/images/mimosafrappe.jpg",

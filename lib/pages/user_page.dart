@@ -92,7 +92,6 @@ class _UserPageState extends State<UserPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => RecipePage(
-                      user: widget.user,
                       recipe: widget.user.recipeLists.first.recipes.first,
                     ),
                   ),
