@@ -49,7 +49,6 @@ class RecipeListDbHelper {
           name TEXT,
           instructions TEXT,
           image TEXT,
-          rating REAL,
           type TEXT,
           ingredients TEXT,
           preparationTime INTEGER
@@ -130,7 +129,6 @@ class RecipeListDbHelper {
         name: maps.first['name'],
         instructions: maps.first['instructions'],
         image: maps.first['image'],
-        rating: maps.first['rating'],
         type: maps.first['type'],
         ingredients:
             maps.first['ingredients'].split(','), // Convert back to List

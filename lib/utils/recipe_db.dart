@@ -2,11 +2,10 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class Recipe {
-  final int id;
+  final int? id;
   final String name;
   final String instructions;
   final String image;
-  final double rating;
   final String type;
   final List<String> ingredients; //format: name, amount
   final int preparationTime; //minutes
@@ -16,7 +15,6 @@ class Recipe {
     required this.name,
     required this.instructions,
     required this.image,
-    required this.rating,
     required this.type,
     required this.ingredients,
     required this.preparationTime,
@@ -28,7 +26,6 @@ class Recipe {
       'name': name,
       'instructions': instructions,
       'image': image,
-      'rating': rating,
       'type': type,
       'ingredients': ingredients.join('|'),
       'preparationTime': preparationTime,
@@ -42,7 +39,6 @@ class Recipe {
       name: map['name'],
       instructions: map['instructions'],
       image: map['image'],
-      rating: map['rating'],
       type: map['type'],
       ingredients: (map['ingredients'] as String).split('|'), // Convert to list
       preparationTime: map['preparationTime'],
@@ -61,11 +57,9 @@ class RecipeDbHelper {
           name TEXT,
           instructions TEXT,
           image TEXT,
-          rating REAL,
           type TEXT,
           ingredients TEXT,
-          preparationTime INTEGER,
-          FOREIGN KEY (creator_id) REFERENCES users(id)
+          preparationTime INTEGER
         )
         ''');
 
@@ -100,6 +94,21 @@ class RecipeDbHelper {
     return maps.map((map) => Recipe.fromMap(map)).toList();
   }
 
+  static Future<Recipe> getRecipeById(int recipeId) async {
+    final db = await RecipeDbHelper.database();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'recipes',
+      where: 'id = ?',
+      whereArgs: [recipeId],
+    );
+
+    if (maps.isNotEmpty) {
+      return Recipe.fromMap(maps.first);
+    } else {
+      throw Exception('Recipe not found');
+    }
+  }
+
   static Future<void> updateRecipe(Recipe recipe) async {
     final db = await RecipeDbHelper.database();
     await db.update(
@@ -119,19 +128,37 @@ class RecipeDbHelper {
     );
   }
 
-  // Add a recipe to the recent list
   static Future<void> addRecentRecipe(int recipeId) async {
     final db = await RecipeDbHelper.database();
 
-    // Insert with a timestamp
-    await db.insert(
+    // Check if the recipe is already in the recent_recipes table
+    final existingRecipe = await db.query(
       'recent_recipes',
-      {
-        'recipe_id': recipeId,
-        'opened_at': DateTime.now().millisecondsSinceEpoch
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: 'recipe_id = ?',
+      whereArgs: [recipeId],
     );
+
+    if (existingRecipe.isNotEmpty) {
+      // If it exists, update the 'opened_at' timestamp
+      await db.update(
+        'recent_recipes',
+        {
+          'opened_at': DateTime.now().millisecondsSinceEpoch,
+        },
+        where: 'recipe_id = ?',
+        whereArgs: [recipeId],
+      );
+    } else {
+      // If not, insert a new entry
+      await db.insert(
+        'recent_recipes',
+        {
+          'recipe_id': recipeId,
+          'opened_at': DateTime.now().millisecondsSinceEpoch
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
 
     // Limit recent recipes to 3, deleting older entries
     await db.delete(

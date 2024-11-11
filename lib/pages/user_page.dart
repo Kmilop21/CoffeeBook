@@ -88,14 +88,14 @@ class _UserPageState extends State<UserPage> {
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecipePage(
-                      recipe: widget.user.recipeLists.first.recipes.first,
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RecipePage(
+                //       recipe: widget.user.recipeLists.first.recipes.first,
+                //     ),
+                //   ),
+                // );
               },
               child: SizedBox(
                 width: 350,

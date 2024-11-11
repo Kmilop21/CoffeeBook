@@ -2,6 +2,7 @@ import 'package:coffeebook/utils/recipe_db.dart';
 import 'package:coffeebook/pages/settings_page.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
+import 'package:coffeebook/pages/my_recipes.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +30,6 @@ class HomePageState extends State<HomePage> {
   Future<void> fetchRecipes() async {
     // Fetch recent recipes from the database
     recentRecipes = await RecipeDbHelper.getRecentRecipes();
-
     setState(() {}); // Trigger UI update
   }
 
@@ -59,9 +59,9 @@ class HomePageState extends State<HomePage> {
                 color: Colors.brown,
               ),
               child: Text(
-                'Hello, ${widget.username}',
+                'Hola, ${widget.username}',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 24,
                 ),
               ),
@@ -71,17 +71,38 @@ class HomePageState extends State<HomePage> {
               title: const Text('Inicio'),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(username: 'Camilo'),
+                  ),
+                );
               },
             ),
             ListTile(
               leading: const Icon(Icons.coffee),
-              title: const Text('My Barista'),
+              title: const Text('Mis recetas'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MyBaristaPage(),
+                    builder: (context) =>
+                        MyRecipesPage(username: widget.username),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
+              title: const Text('Mi Barista'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        MyBaristaPage(username: widget.username),
                   ),
                 );
               },
@@ -110,7 +131,9 @@ class HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RecipePage(recipe: recipe),
+                          builder: (context) => RecipePage(
+                            recipe: recipe,
+                          ),
                         ),
                       );
                     },
@@ -162,10 +185,6 @@ class RecipeCard extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  Text(
-                    'Rating: ${recipe.rating.toString()}',
-                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),

@@ -154,14 +154,14 @@ class _BrowsePageState extends State<BrowsePage> {
           ),
           title: Text(recipe.name),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RecipePage(
-                  recipe: recipe,
-                ),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => RecipePage(
+            //       recipe: recipe,
+            //     ),
+            //   ),
+            // );
           },
         );
       },

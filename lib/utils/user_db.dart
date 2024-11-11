@@ -60,7 +60,6 @@ class UserDbHelper {
         await db.execute('''CREATE TABLE recipe_lists(
           id INTEGER PRIMARY KEY,
           name TEXT,
-          creatorId INTEGER,
           recipes TEXT
         )''');
 
@@ -132,13 +131,6 @@ class UserDbHelper {
   // Delete User
   static Future<void> deleteUser(int id) async {
     final db = await UserDbHelper.database();
-
-    // Optionally, delete the user's recipe lists
-    await db.delete(
-      'recipe_lists',
-      where: 'creatorId = ?',
-      whereArgs: [id],
-    );
 
     await db.delete(
       'users',
