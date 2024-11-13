@@ -1,13 +1,11 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:coffeebook/utils/user_db.dart';
 
 class Product {
-  final int? id; // Make ID nullable for cases where it's not set
+  final int? id; // Nullable ID for cases where it's not set
   final String name;
   final String description;
   final double price;
-  final User seller;
   final String image;
 
   Product({
@@ -15,7 +13,6 @@ class Product {
     required this.name,
     required this.description,
     required this.price,
-    required this.seller,
     required this.image,
   });
 
@@ -26,19 +23,17 @@ class Product {
       'name': name,
       'description': description,
       'price': price,
-      'sellerId': seller.id, // Store only the seller ID as a foreign key
       'image': image,
     };
   }
 
-  // Create Product from Map with User data
-  static Product fromMap(Map<String, dynamic> map, User seller) {
+  // Create Product from Map
+  static Product fromMap(Map<String, dynamic> map) {
     return Product(
       id: map['id'],
       name: map['name'],
       description: map['description'],
       price: map['price'],
-      seller: seller,
       image: map['image'],
     );
   }
@@ -55,9 +50,7 @@ class ProductDatabaseHelper {
             name TEXT,
             description TEXT,
             price REAL,
-            sellerId INTEGER,  // Foreign key to reference User
-            image TEXT,
-            FOREIGN KEY (sellerId) REFERENCES users(id)
+            image TEXT
           )
         ''');
       },
@@ -75,19 +68,11 @@ class ProductDatabaseHelper {
     );
   }
 
-  // Get all Products, fetching seller data for each
-  Future<List<Product>> getProducts(
-      Future<User> Function(int) getUserById) async {
+  // Get all Products
+  Future<List<Product>> getProducts() async {
     final db = await ProductDatabaseHelper.database();
     final List<Map<String, dynamic>> maps = await db.query('products');
-
-    // For each product map, fetch the seller using getUserById function
-    List<Product> products = [];
-    for (var map in maps) {
-      User seller = await getUserById(map['sellerId']); // Fetch the user
-      products.add(Product.fromMap(map, seller));
-    }
-    return products;
+    return List.generate(maps.length, (i) => Product.fromMap(maps[i]));
   }
 
   // Update Product

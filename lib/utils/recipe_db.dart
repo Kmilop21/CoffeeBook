@@ -48,7 +48,7 @@ class Recipe {
       'image': image,
       'type': type,
       'ingredients': ingredients.join('|'),
-      'preparationTime': preparationTime,
+      'preparationTime': preparationTime
     };
   }
 

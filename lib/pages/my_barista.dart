@@ -66,14 +66,9 @@ class MyBaristaPageState extends State<MyBaristaPage> {
         .map((data) => SampleRecipe.fromMap(data))
         .toList();
 
-    // Get the list of recipe names that already exist in the database
-    List<String> existingRecipeNames = await RecipeDbHelper.getAllRecipeNames();
-
     // Filter out recipes that are already in the database
     setState(() {
-      sampleRecipes = loadedSampleRecipes
-          .where((sample) => !existingRecipeNames.contains(sample.name))
-          .toList();
+      sampleRecipes = loadedSampleRecipes.toList();
     });
   }
 
@@ -94,7 +89,7 @@ class MyBaristaPageState extends State<MyBaristaPage> {
 
     // Optionally, display a confirmation message
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${sampleRecipe.name} added to your recipes!')),
+      SnackBar(content: Text('${sampleRecipe.name} añadido a Mis Recetas')),
     );
   }
 
@@ -225,21 +220,35 @@ class MyBaristaPageState extends State<MyBaristaPage> {
             const SizedBox(height: 8),
             Text("Tipo: ${recipe.type}", style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 8),
-            const SizedBox(height: 8),
             Text("Tiempo de preparación: ${recipe.preparationTime} minutos",
                 style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 16),
-            const Text(
-              "Ingredientes:",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            ...recipe.ingredients.map((ingredient) => Text("• $ingredient")),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 saveSampleRecipe(recipe);
               },
-              child: const Text("Guardar en mis recetas"),
+              child: const Text("Guardar en mis recetas para editar"),
+            ),
+            const SizedBox(height: 16),
+            ExpansionTile(
+              title: const Text("Ver detalles"),
+              children: [
+                const Text(
+                  "Ingredientes:",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                ...recipe.ingredients
+                    .map((ingredient) => Text("• $ingredient")),
+                const SizedBox(height: 16),
+                const Text(
+                  "Instrucciones:",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  recipe.instructions,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
             ),
           ],
         ),
