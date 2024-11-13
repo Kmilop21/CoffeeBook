@@ -1,19 +1,14 @@
 import 'dart:io';
 
-import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:coffeebook/utils/recipe_db.dart';
-import 'package:coffeebook/pages/settings_page.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
 import 'package:coffeebook/pages/my_recipes.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  final String username;
-
   const HomePage({
     super.key,
-    required this.username,
   });
 
   @override
@@ -44,15 +39,15 @@ class HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
+            const DrawerHeader(
+              decoration: BoxDecoration(
                 color: Colors.brown,
               ),
               child: Text(
-                'Hola, ${widget.username}',
-                style: const TextStyle(
+                'Menú',
+                style: TextStyle(
                   color: Colors.black,
-                  fontSize: 24,
+                  fontSize: 48,
                 ),
               ),
             ),
@@ -64,7 +59,7 @@ class HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(username: widget.username),
+                    builder: (context) => const HomePage(),
                   ),
                 );
               },
@@ -77,22 +72,7 @@ class HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        MyRecipesPage(username: widget.username),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.coffee),
-              title: const Text('Crear receta'),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CreateRecipePage(username: widget.username),
+                    builder: (context) => const MyRecipesPage(),
                   ),
                 );
               },
@@ -105,8 +85,7 @@ class HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        MyBaristaPage(username: widget.username),
+                    builder: (context) => const MyBaristaPage(),
                   ),
                 );
               },
@@ -119,10 +98,6 @@ class HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Bienvenido, ${widget.username}',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 32),
             const Text(
               'Recetas recientes',

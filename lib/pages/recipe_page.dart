@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:coffeebook/utils/recipe_db.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RecipePage extends StatefulWidget {
   final Recipe recipe;
@@ -54,6 +55,9 @@ class RecipePageState extends State<RecipePage> {
         case 'instructions':
           _recipe = _recipe.copyWith(instructions: value);
           break;
+        case 'products':
+          _recipe = _recipe.copyWith(products: value);
+          break;
       }
     });
     await RecipeDbHelper.updateRecipe(_recipe);
@@ -82,9 +86,9 @@ class RecipePageState extends State<RecipePage> {
               child: const Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () async {
-                await _updateRecipeField(field, controller.text);
+              onPressed: () {
                 Navigator.of(context).pop();
+                _updateRecipeField(field, controller.text);
               },
               child: const Text('Guardar'),
             ),
@@ -144,8 +148,45 @@ class RecipePageState extends State<RecipePage> {
                 setState(() {
                   _recipe.ingredients[index] = controller.text;
                 });
-                await _updateRecipeField('ingredients', _recipe.ingredients);
                 Navigator.of(context).pop();
+                _updateRecipeField('ingredients', _recipe.ingredients);
+              },
+              child: const Text('Guardar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _editProducts(int index, String currentProducts) async {
+    if (!_isEditing) return;
+
+    TextEditingController controller =
+        TextEditingController(text: currentProducts);
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Editar productos'),
+          content: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              hintText: 'Ingresa producto',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () async {
+                setState(() {
+                  _recipe.products[index] = controller.text;
+                });
+                Navigator.of(context).pop();
+                _updateRecipeField('products', _recipe.products);
               },
               child: const Text('Guardar'),
             ),
@@ -164,6 +205,24 @@ class RecipePageState extends State<RecipePage> {
           IconButton(
             icon: Icon(_isEditing ? Icons.remove_red_eye_outlined : Icons.edit),
             onPressed: _toggleEditMode,
+          ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {
+              // Generate the message text
+              String message = '''
+${widget.recipe.name}
+
+Ingredientes:
+${widget.recipe.ingredients.map((ingredient) => '- $ingredient').join('\n')}
+
+Productos:
+${widget.recipe.products.map((product) => '- $product').join('\n')}
+''';
+
+              // Share the message
+              Share.share(message);
+            },
           ),
         ],
       ),
@@ -293,6 +352,46 @@ class RecipePageState extends State<RecipePage> {
                           Expanded(
                             child: Text(
                               "• $ingredient",
+                              style: TextStyle(
+                                fontSize: 16,
+                                decoration: _isEditing
+                                    ? TextDecoration.underline
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text("Productos utilizados:",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    if (_isEditing) const Icon(Icons.edit, color: Colors.grey),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                ..._recipe.products.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String products = entry.value;
+                  return GestureDetector(
+                    onTap: () => _editProducts(index, products),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "• $products",
                               style: TextStyle(
                                 fontSize: 16,
                                 decoration: _isEditing

@@ -9,6 +9,7 @@ class Recipe {
   final String type;
   final List<String> ingredients; //format: name, amount
   final int preparationTime; //minutes
+  final List<String> products;
 
   Recipe({
     required this.id,
@@ -18,6 +19,7 @@ class Recipe {
     required this.type,
     required this.ingredients,
     required this.preparationTime,
+    required this.products,
   });
 
   Recipe copyWith({
@@ -28,6 +30,7 @@ class Recipe {
     String? type,
     List<String>? ingredients,
     int? preparationTime,
+    List<String>? products,
   }) {
     return Recipe(
       id: id ?? this.id,
@@ -37,6 +40,7 @@ class Recipe {
       type: type ?? this.type,
       ingredients: ingredients ?? this.ingredients,
       preparationTime: preparationTime ?? this.preparationTime,
+      products: products ?? this.products,
     );
   }
 
@@ -48,7 +52,8 @@ class Recipe {
       'image': image,
       'type': type,
       'ingredients': ingredients.join('|'),
-      'preparationTime': preparationTime
+      'preparationTime': preparationTime,
+      'products': products.join('|'),
     };
   }
 
@@ -62,6 +67,7 @@ class Recipe {
       type: map['type'],
       ingredients: (map['ingredients'] as String).split('|'), // Convert to list
       preparationTime: map['preparationTime'],
+      products: (map['products'] as String).split('|'),
     );
   }
 }
@@ -79,7 +85,8 @@ class RecipeDbHelper {
           image TEXT,
           type TEXT,
           ingredients TEXT,
-          preparationTime INTEGER
+          preparationTime INTEGER,
+          products TEXT
         )
         ''');
 

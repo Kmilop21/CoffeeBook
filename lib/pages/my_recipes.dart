@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
@@ -8,11 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:coffeebook/utils/recipe_db.dart';
 
 class MyRecipesPage extends StatefulWidget {
-  final String username;
-
   const MyRecipesPage({
     super.key,
-    required this.username,
   });
 
   @override
@@ -30,7 +26,19 @@ class MyRecipesPageState extends State<MyRecipesPage> {
 
   Future<void> fetchRecipes() async {
     _recipes = RecipeDbHelper.getRecipes();
-    setState(() {}); // Trigger UI update
+    setState(() {});
+  }
+
+  Future<void> _deleteRecipe(int id, String recipeName) async {
+    await RecipeDbHelper.deleteRecipe(id);
+    fetchRecipes(); // Refresh the list after deletion
+
+    // Show a SnackBar to confirm deletion
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$recipeName ha sido eliminado')),
+      );
+    }
   }
 
   @override
@@ -38,20 +46,35 @@ class MyRecipesPageState extends State<MyRecipesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mis recetas"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CreateRecipePage(),
+                ),
+              ).then((_) {
+                fetchRecipes(); // Refresh recipes after returning
+              });
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
+            const DrawerHeader(
+              decoration: BoxDecoration(
                 color: Colors.brown,
               ),
               child: Text(
-                'Bienvenido, ${widget.username}',
-                style: const TextStyle(
+                'Menú',
+                style: TextStyle(
                   color: Colors.black,
-                  fontSize: 24,
+                  fontSize: 48,
                 ),
               ),
             ),
@@ -63,7 +86,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(username: widget.username),
+                    builder: (context) => const HomePage(),
                   ),
                 );
               },
@@ -76,22 +99,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        MyRecipesPage(username: widget.username),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.coffee),
-              title: const Text('Crear receta'),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CreateRecipePage(username: widget.username),
+                    builder: (context) => const MyRecipesPage(),
                   ),
                 );
               },
@@ -104,8 +112,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        MyBaristaPage(username: widget.username),
+                    builder: (context) => const MyBaristaPage(),
                   ),
                 );
               },
@@ -163,6 +170,12 @@ class MyRecipesPageState extends State<MyRecipesPage> {
                       fetchRecipes(); // Refresh recipes after returning
                     });
                   },
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      _deleteRecipe(recipe.id!, recipe.name);
+                    },
+                  ),
                 ),
               );
             },

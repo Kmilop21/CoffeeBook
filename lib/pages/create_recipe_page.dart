@@ -1,6 +1,3 @@
-import 'package:coffeebook/pages/home_page.dart';
-import 'package:coffeebook/pages/my_barista.dart';
-import 'package:coffeebook/pages/my_recipes.dart';
 import 'package:coffeebook/utils/recipe_db.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,11 +5,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class CreateRecipePage extends StatefulWidget {
-  final String username;
-
   const CreateRecipePage({
     super.key,
-    required this.username,
   });
 
   @override
@@ -27,38 +21,33 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   final TextEditingController _typeController = TextEditingController();
   final TextEditingController _prepTimeController = TextEditingController();
   final List<String> _ingredients = [];
+  final List<String> _products = [];
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _pickImage() async {
-    final ImageSource? source = await showDialog<ImageSource>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Seleccionar fuente de imagen'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, ImageSource.camera),
-            child: const Text('Tomar foto'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, ImageSource.gallery),
-            child: const Text('Elegir de galería'),
-          ),
-        ],
-      ),
-    );
+  Future<void> _selectImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath =
+          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';
+      final savedImage = await File(pickedFile.path).copy(imagePath);
+      setState(() {
+        _image = savedImage;
+      });
+    }
+  }
 
-    if (source != null) {
-      final pickedFile = await _picker.pickImage(source: source);
-      if (pickedFile != null) {
-        final directory = await getApplicationDocumentsDirectory();
-        final imagePath =
-            '${directory.path}/${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';
-        final savedImage = await File(pickedFile.path).copy(imagePath);
-        setState(() {
-          _image = savedImage;
-        });
-      }
+  Future<void> _takePhoto() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath =
+          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';
+      final savedImage = await File(pickedFile.path).copy(imagePath);
+      setState(() {
+        _image = savedImage;
+      });
     }
   }
 
@@ -118,6 +107,40 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     );
   }
 
+  void _showAddProductDialog() {
+    final TextEditingController nameController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Añadir producto'),
+          content: TextField(
+            controller: nameController,
+            decoration: const InputDecoration(labelText: 'Nombre del producto'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _products.add(nameController.text);
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Añadir'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _saveRecipeToDatabase() {
     if (_formKey.currentState!.validate()) {
       final newRecipe = Recipe(
@@ -127,6 +150,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
         image: _image?.path ?? '',
         type: _typeController.text, // Get the type from the controller
         ingredients: _ingredients,
+        products: _products,
         preparationTime:
             int.tryParse(_prepTimeController.text) ?? 0, // Parse the prep time
       );
@@ -147,81 +171,6 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Crear receta'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.brown,
-              ),
-              child: Text(
-                'Bienvenido, ${widget.username}',
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Inicio'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(username: 'Camilo'),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.coffee),
-              title: const Text('Mis recetas'),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        MyRecipesPage(username: widget.username),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.coffee),
-              title: const Text('Crear receta'),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CreateRecipePage(username: widget.username),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.coffee),
-              title: const Text('Mi Barista'),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyBaristaPage(
-                      username: widget.username,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -269,7 +218,35 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
-                  onTap: _pickImage,
+                  onTap: () {
+                    // Show the modal bottom sheet
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.photo),
+                              title: const Text('Seleccionar desde galería'),
+                              onTap: () async {
+                                Navigator.of(context).pop();
+                                await _selectImage();
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.camera_alt),
+                              title: const Text('Tomar foto'),
+                              onTap: () async {
+                                Navigator.of(context).pop();
+                                await _takePhoto();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                   child: _image != null
                       ? Image.file(
                           _image!,
@@ -304,6 +281,30 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                     } else {
                       return ListTile(
                         title: Text(_ingredients[index]),
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Productos',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _products.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == _products.length) {
+                      return ListTile(
+                        title: const Text("Añadir productos"),
+                        trailing: IconButton(
+                            onPressed: () => _showAddProductDialog(),
+                            icon: const Icon(Icons.add)),
+                      );
+                    } else {
+                      return ListTile(
+                        title: Text(_products[index]),
                       );
                     }
                   },

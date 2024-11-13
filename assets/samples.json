@@ -11,7 +11,12 @@
         "Leche, 1/2 taza",
         "Café sello rojo, 100 ml"
       ],
-      "preparationTime": 10
+      "preparationTime": 10,
+      "products": [
+        "Máquina de espresso",
+        "Espumador de leche",
+        "Muddler de fresa"
+      ]
     },
     {
       "name": "café tiramisú",
@@ -28,7 +33,12 @@
         "Agua, 300 ml",
         "Galletas Ducales Tentación, Para decorar"
       ],
-      "preparationTime": 15
+      "preparationTime": 15,
+      "products": [
+        "Prensa francesa",
+        "Licuadora",
+        "Colador de malla fina"
+      ]
     },
     {
       "name": "Mimosa frappé de café",
@@ -40,11 +50,16 @@
         "Vino prosecco, 2 oz",
         "Café Matiz Escarlata, 1/3 taza"
       ],
-      "preparationTime": 12
+      "preparationTime": 12,
+      "products": [
+        "Licuadora de alta velocidad",
+        "Bandeja para moldes de hielo",
+        "Rallador de cítricos"
+      ]
     },
     {
       "name": "café carajillo frío",
-      "instructions": "En un shaker, agregar hielo al gusto, 1 ½ onzas de café y ½ onza de licor\nAñadir, además, 1 cucharada de zumo de naranja y 1 cucharadita de azúcar\nMezclar hasta integrar los ingredientes\nEn un vaso, agregar una rodaja de naranja, hielos y verter el carajillo\nAgregar una astilla de canela y romero para decorar\n",
+      "instructions": "En un shaker, agregar hielo al gusto, 1 ½ onzas de café y ½ onza de licor\nAñadir, además, 1 cucharada de zumo de naranja y 1 cucharadita de azúcar...",
       "image": "assets/images/carajillofrio.jpg",
       "type": "Cocktail",
       "ingredients": [
@@ -57,7 +72,13 @@
         "Canela, 1 astilla",
         "Romero, Para decorar"
       ],
-      "preparationTime": 5
+      "preparationTime": 5,
+      "products": [
+        "Shaker de coctel",
+        "Máquina de espresso",
+        "Cucharón de bar",
+        "Exprimidor de cítricos"
+      ]
     }
   ]
 }
