@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeebook/models/recipe_db.dart';
 import 'package:image_picker/image_picker.dart';
@@ -243,6 +244,12 @@ ${widget.recipe.products.map((product) => '- $product').join('\n')}
                 ),
                 textAlign: TextAlign.center,
               ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Creado el ${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(_recipe.creationDate))}',
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             GestureDetector(

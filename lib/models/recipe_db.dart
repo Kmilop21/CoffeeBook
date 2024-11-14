@@ -11,6 +11,7 @@ class Recipe {
   final int preparationTime; //minutes
   final List<String> products;
   final int timesMade;
+  final int creationDate;
 
   Recipe({
     required this.id,
@@ -22,7 +23,8 @@ class Recipe {
     required this.preparationTime,
     required this.products,
     this.timesMade = 0,
-  });
+    int? creationDate,
+  }) : creationDate = creationDate ?? DateTime.now().millisecondsSinceEpoch;
 
   Recipe copyWith({
     int? id,
@@ -34,6 +36,7 @@ class Recipe {
     int? preparationTime,
     List<String>? products,
     int? timesMade,
+    int? creationDate,
   }) {
     return Recipe(
       id: id ?? this.id,
@@ -45,6 +48,7 @@ class Recipe {
       preparationTime: preparationTime ?? this.preparationTime,
       products: products ?? this.products,
       timesMade: timesMade ?? this.timesMade,
+      creationDate: creationDate ?? this.creationDate,
     );
   }
 
@@ -59,6 +63,7 @@ class Recipe {
       'preparationTime': preparationTime,
       'products': products.join('|'),
       'timesMade': timesMade,
+      'creationDate': creationDate,
     };
   }
 
@@ -74,6 +79,7 @@ class Recipe {
       preparationTime: map['preparationTime'],
       products: (map['products'] as String).split('|'),
       timesMade: map['timesMade'] ?? 0,
+      creationDate: map['creationDate'],
     );
   }
 }
@@ -93,7 +99,8 @@ class RecipeDbHelper {
           ingredients TEXT,
           preparationTime INTEGER,
           products TEXT,
-          timesMade INTEGER DEFAULT 0
+          timesMade INTEGER DEFAULT 0,
+          creationDate INTEGER DEFAULT (strftime('%s', 'now'))
         )
         ''');
 

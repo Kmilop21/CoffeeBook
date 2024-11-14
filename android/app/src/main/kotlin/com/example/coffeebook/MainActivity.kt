@@ -1,4 +1,4 @@
-package com.example.coffeebook
+package cl.cprovoste.coffeebook
 
 import io.flutter.embedding.android.FlutterActivity
 

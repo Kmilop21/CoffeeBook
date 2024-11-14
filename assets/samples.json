@@ -1,8 +1,8 @@
 {
   "recipes": [
     {
-      "name": "café bombóm de fresa",
-      "instructions": "Tritura 2 fresas maduras picadas\nAgrega 2 chucharadas de leche condensada\nIntegra muy bien...",
+      "name": "Café bombóm de fresa",
+      "instructions": "Tritura 2 fresas maduras picadas.\nAgrega 2 cucharadas de leche condensada y mezcla bien.\nAñade 1/2 taza de leche y revuelve.\nLuego, agrega 100 ml de café expreso y mezcla todo muy bien.",
       "image": "assets/images/bombomfresa.jpg",
       "type": "Espresso",
       "ingredients": [
@@ -19,8 +19,8 @@
       ]
     },
     {
-      "name": "café tiramisú",
-      "instructions": "Añadir a la licuadora 80 ml de leche de almendras\n Añadir 2 cdas de queso crema...",
+      "name": "Café tiramisú",
+      "instructions": "En una licuadora, añade 80 ml de leche de almendras y 2 cucharadas de queso crema.\nAgrega 1 cucharada de miel y un poco de cacao en polvo (al gusto).\nAñade hielo a la licuadora.\nPrepara 100 g de Café Matiz Ámbar con 300 ml de agua y mézclalo todo bien.\nDecora con galletas Ducales Tentación.",
       "image": "assets/images/cafetiramisu.jpg",
       "type": "Filtrado",
       "ingredients": [
@@ -42,7 +42,7 @@
     },
     {
       "name": "Mimosa frappé de café",
-      "instructions": "En una licuadora, agrega 1 taza de cascos de mandarina congelados\nAgrega 2 oz de vino proseco y licúa...",
+      "instructions": "En una licuadora, agrega 1 taza de cascos de mandarina congelados.\nAñade 2 oz de vino prosecco y 1/3 de taza de Café Matiz Escarlata.\nLicúa hasta obtener una mezcla suave y sirve.",
       "image": "assets/images/mimosafrappe.jpg",
       "type": "Iced Coffee",
       "ingredients": [
@@ -58,8 +58,8 @@
       ]
     },
     {
-      "name": "café carajillo frío",
-      "instructions": "En un shaker, agregar hielo al gusto, 1 ½ onzas de café y ½ onza de licor\nAñadir, además, 1 cucharada de zumo de naranja y 1 cucharadita de azúcar...",
+      "name": "Café carajillo frío",
+      "instructions": "En un shaker, agrega hielo al gusto.\nVierte 1 ½ oz de café y ½ oz de licor.\nAñade 1 cucharada de zumo de naranja y 1 cucharadita de azúcar.\nAgita bien y decora con una rodaja de naranja, una astilla de canela y un ramito de romero.",
       "image": "assets/images/carajillofrio.jpg",
       "type": "Cocktail",
       "ingredients": [
