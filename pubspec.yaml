@@ -73,6 +73,7 @@ flutter:
   assets:
    - assets/icons/logo.png
    - assets/icons/logoDark.png
+   - assets/icons/icon.png
    - assets/icons/add.svg
    - assets/images/placeholder.png
    - assets/images/cafetiramisu.jpg
