@@ -4,10 +4,22 @@ CoffeeBook es una aplicación de recetas de café, que permita a los usuarios cr
 
 ## Requerimientos
 
-Los usuarios necesitan crear, eliminar, compartir y explorar recetas de café.
+Los usuarios necesitan conservar sus recetas de forma persistente, 
+
+Los usuarios quieren registrar sus recetas, incluyendo los pasos, los ingredientes, productos utilizados y tiempo de preparación
+
+Los usuarios quieren poder elegir imagenes para sus recetas por la galería
+
+Los usuarios quieren editar los detalles de sus recetas y ver cuantas veces las han preparado  
 
 Los usuarios quieren poder compartir la información de sus recetas
 
+Los usuarios quieren poder editar las recetas de Mi Barista
+
 ### Link de video
 
-[Link](https://youtu.be/rAueJMXdoxA)
+[Link](https://youtu.be/Q9wKnzT-ARA)
+
+### APK
+
+[Link](https://drive.google.com/file/d/1FEfiV6GQJpqVBOkQKOoOAjlm3s5wmDId/view?usp=sharing)
