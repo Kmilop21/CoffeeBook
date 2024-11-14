@@ -3,8 +3,9 @@ import 'package:coffeebook/pages/create_recipe_page.dart';
 import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
+import 'package:coffeebook/pages/your_opinion.dart';
 import 'package:flutter/material.dart';
-import 'package:coffeebook/utils/recipe_db.dart';
+import 'package:coffeebook/models/recipe_db.dart';
 
 class MyRecipesPage extends StatefulWidget {
   const MyRecipesPage({
@@ -44,7 +45,9 @@ class MyRecipesPageState extends State<MyRecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 205, 171, 161),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text("Mis recetas"),
         actions: [
           IconButton(
@@ -63,6 +66,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
         ],
       ),
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 247, 232, 192),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -82,7 +86,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
               leading: const Icon(Icons.home),
               title: const Text('Inicio'),
               onTap: () {
-                Navigator.pop(context); // Close drawer
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -117,6 +121,19 @@ class MyRecipesPageState extends State<MyRecipesPage> {
                 );
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
+              title: const Text('Tu opinión'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const YourOpinionPage(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -142,6 +159,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
             itemBuilder: (context, index) {
               Recipe recipe = recipes[index];
               return Card(
+                color: const Color.fromARGB(255, 227, 217, 186),
                 child: ListTile(
                   leading: recipe.image.isNotEmpty
                       ? (recipe.image.startsWith("assets/")

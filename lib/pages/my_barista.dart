@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:coffeebook/pages/home_page.dart';
 import 'package:coffeebook/pages/my_recipes.dart';
+import 'package:coffeebook/pages/your_opinion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:coffeebook/utils/recipe_db.dart';
+import 'package:coffeebook/models/recipe_db.dart';
 
 class SampleRecipe {
   final String name;
@@ -97,10 +98,13 @@ class MyBaristaPageState extends State<MyBaristaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 201, 191, 161),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text("Mi Barista"),
       ),
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 247, 232, 192),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -155,6 +159,19 @@ class MyBaristaPageState extends State<MyBaristaPage> {
                 );
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
+              title: const Text('Tu opinión'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const YourOpinionPage(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -181,6 +198,7 @@ class MyBaristaPageState extends State<MyBaristaPage> {
   Widget _buildRecipeCard(SampleRecipe recipe) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
+      color: const Color.fromARGB(255, 241, 235, 216),
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

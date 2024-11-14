@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:coffeebook/utils/recipe_db.dart';
+import 'package:coffeebook/models/recipe_db.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -199,7 +199,9 @@ class RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 227, 217, 186),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text('Receta'),
         actions: [
           IconButton(

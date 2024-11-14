@@ -46,8 +46,13 @@ class YourOpinionPageState extends State<YourOpinionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tu Opinión')),
+      backgroundColor: const Color.fromARGB(255, 227, 217, 186),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 146, 111, 102),
+        title: const Text('Tu Opinión'),
+      ),
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 247, 232, 192),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [

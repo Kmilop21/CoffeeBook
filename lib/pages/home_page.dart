@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:coffeebook/utils/recipe_db.dart';
+import 'package:coffeebook/models/recipe_db.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
 import 'package:coffeebook/pages/my_recipes.dart';
@@ -33,10 +33,13 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 205, 171, 161),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text('CoffeeBook'),
       ),
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 247, 232, 192),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -158,6 +161,7 @@ class RecipeCard extends StatelessWidget {
       width: 350,
       height: 100,
       child: Card(
+        color: const Color.fromARGB(255, 227, 217, 186),
         elevation: 4,
         child: Padding(
           padding: const EdgeInsets.all(16.0),

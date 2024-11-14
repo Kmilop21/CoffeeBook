@@ -1,4 +1,4 @@
-import 'package:coffeebook/utils/recipe_db.dart';
+import 'package:coffeebook/models/recipe_db.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -169,7 +169,9 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 243, 232, 199),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text('Crear receta'),
       ),
       body: Padding(
