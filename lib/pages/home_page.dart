@@ -4,6 +4,7 @@ import 'package:coffeebook/utils/recipe_db.dart';
 import 'package:coffeebook/pages/recipe_page.dart';
 import 'package:coffeebook/pages/my_barista.dart';
 import 'package:coffeebook/pages/my_recipes.dart';
+import 'package:coffeebook/pages/your_opinion.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -86,6 +87,19 @@ class HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const MyBaristaPage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.coffee),
+              title: const Text('Tu opinión'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const YourOpinionPage(),
                   ),
                 );
               },

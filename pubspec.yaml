@@ -43,6 +43,7 @@ dependencies:
   path_provider: ^2.0.14
   permission_handler: ^10.2.0
   flutter_launcher_icons: ^0.14.1
+  flutter_email_sender: ^6.0.3
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +86,7 @@ flutter:
    - assets/images/pfp4.jpg
    - assets/images/filtro.jpg
    - assets/samples.json
+   - assets/opinion.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

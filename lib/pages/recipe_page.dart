@@ -216,7 +216,7 @@ ${widget.recipe.name}
 Ingredientes:
 ${widget.recipe.ingredients.map((ingredient) => '- $ingredient').join('\n')}
 
-Productos:
+Productos utilizados:
 ${widget.recipe.products.map((product) => '- $product').join('\n')}
 ''';
 
