@@ -98,7 +98,7 @@ class MyBaristaPageState extends State<MyBaristaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 201, 191, 161),
+      backgroundColor: const Color.fromARGB(255, 250, 217, 207),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text("Mi Barista"),
@@ -108,15 +108,18 @@ class MyBaristaPageState extends State<MyBaristaPage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            Container(
+              height: 120,
+              decoration: const BoxDecoration(
                 color: Colors.brown,
               ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 48,
+              child: const DrawerHeader(
+                child: Text(
+                  'Menú',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),
@@ -134,7 +137,7 @@ class MyBaristaPageState extends State<MyBaristaPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.book),
               title: const Text('Mis recetas'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -147,7 +150,7 @@ class MyBaristaPageState extends State<MyBaristaPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.local_cafe),
               title: const Text('Mi Barista'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -160,7 +163,7 @@ class MyBaristaPageState extends State<MyBaristaPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.feedback),
               title: const Text('Tu opinión'),
               onTap: () {
                 Navigator.pop(context); // Close drawer

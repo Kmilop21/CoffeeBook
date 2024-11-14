@@ -10,6 +10,7 @@ class Recipe {
   final List<String> ingredients; //format: name, amount
   final int preparationTime; //minutes
   final List<String> products;
+  final int timesMade;
 
   Recipe({
     required this.id,
@@ -20,6 +21,7 @@ class Recipe {
     required this.ingredients,
     required this.preparationTime,
     required this.products,
+    this.timesMade = 0,
   });
 
   Recipe copyWith({
@@ -31,6 +33,7 @@ class Recipe {
     List<String>? ingredients,
     int? preparationTime,
     List<String>? products,
+    int? timesMade,
   }) {
     return Recipe(
       id: id ?? this.id,
@@ -41,6 +44,7 @@ class Recipe {
       ingredients: ingredients ?? this.ingredients,
       preparationTime: preparationTime ?? this.preparationTime,
       products: products ?? this.products,
+      timesMade: timesMade ?? this.timesMade,
     );
   }
 
@@ -54,6 +58,7 @@ class Recipe {
       'ingredients': ingredients.join('|'),
       'preparationTime': preparationTime,
       'products': products.join('|'),
+      'timesMade': timesMade,
     };
   }
 
@@ -68,6 +73,7 @@ class Recipe {
       ingredients: (map['ingredients'] as String).split('|'), // Convert to list
       preparationTime: map['preparationTime'],
       products: (map['products'] as String).split('|'),
+      timesMade: map['timesMade'] ?? 0,
     );
   }
 }
@@ -86,7 +92,8 @@ class RecipeDbHelper {
           type TEXT,
           ingredients TEXT,
           preparationTime INTEGER,
-          products TEXT
+          products TEXT,
+          timesMade INTEGER DEFAULT 0
         )
         ''');
 
@@ -153,6 +160,17 @@ class RecipeDbHelper {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  static Future<void> incrementTimesMade(int recipeId) async {
+    final db = await RecipeDbHelper.database();
+
+    // Increment the timesMade field
+    await db.rawUpdate('''
+    UPDATE recipes
+    SET timesMade = timesMade + 1
+    WHERE id = ?
+  ''', [recipeId]);
   }
 
   static Future<void> addRecentRecipe(int recipeId) async {

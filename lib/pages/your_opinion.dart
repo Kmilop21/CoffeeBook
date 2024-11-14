@@ -56,15 +56,18 @@ class YourOpinionPageState extends State<YourOpinionPage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            Container(
+              height: 120,
+              decoration: const BoxDecoration(
                 color: Colors.brown,
               ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 48,
+              child: const DrawerHeader(
+                child: Text(
+                  'Menú',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),
@@ -82,7 +85,7 @@ class YourOpinionPageState extends State<YourOpinionPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.book),
               title: const Text('Mis recetas'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -95,7 +98,7 @@ class YourOpinionPageState extends State<YourOpinionPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.local_cafe),
               title: const Text('Mi Barista'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -108,7 +111,7 @@ class YourOpinionPageState extends State<YourOpinionPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.feedback),
               title: const Text('Tu opinión'),
               onTap: () {
                 Navigator.pop(context); // Close drawer

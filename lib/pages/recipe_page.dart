@@ -199,7 +199,7 @@ class RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 227, 217, 186),
+      backgroundColor: const Color.fromARGB(255, 241, 235, 216),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text('Receta'),
@@ -292,12 +292,58 @@ ${widget.recipe.products.map((product) => '- $product').join('\n')}
             ),
             const SizedBox(height: 16),
             GestureDetector(
+              onTap: () => _editField('Veces preparadas', 'timesPrepared',
+                  _recipe.timesMade.toString()),
+              child: Row(
+                children: [
+                  const Text(
+                    "Veces preparadas: ",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold, // Bold for the label
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      _recipe.timesMade.toString(),
+                      style: TextStyle(
+                        fontSize: 18,
+                        decoration:
+                            _isEditing ? TextDecoration.underline : null,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add_circle_outline),
+                    onPressed: () async {
+                      setState(() {
+                        RecipeDbHelper.incrementTimesMade(_recipe.id!);
+                      });
+
+                      // Reload the updated recipe data from the database to reflect the changes
+                      _recipe = await RecipeDbHelper.getRecipeById(_recipe.id!);
+
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            GestureDetector(
               onTap: () => _editField('Tipo', 'type', _recipe.type),
               child: Row(
                 children: [
+                  const Text(
+                    "Tipo: ",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold, // Bold for the label
+                    ),
+                  ),
                   Expanded(
                     child: Text(
-                      "Tipo: ${_recipe.type}",
+                      _recipe.type,
                       style: TextStyle(
                         fontSize: 18,
                         decoration:
@@ -315,9 +361,16 @@ ${widget.recipe.products.map((product) => '- $product').join('\n')}
                   'preparationTime', _recipe.preparationTime.toString()),
               child: Row(
                 children: [
+                  const Text(
+                    "Tiempo de preparación: ",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold, // Bold for the label
+                    ),
+                  ),
                   Expanded(
                     child: Text(
-                      "Tiempo de preparación: ${_recipe.preparationTime} minutos",
+                      "${_recipe.preparationTime} minutos",
                       style: TextStyle(
                         fontSize: 18,
                         decoration:

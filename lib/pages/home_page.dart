@@ -33,7 +33,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 205, 171, 161),
+      backgroundColor: const Color.fromARGB(255, 250, 217, 207),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text('CoffeeBook'),
@@ -43,15 +43,18 @@ class HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            Container(
+              height: 120,
+              decoration: const BoxDecoration(
                 color: Colors.brown,
               ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 48,
+              child: const DrawerHeader(
+                child: Text(
+                  'Menú',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),
@@ -69,7 +72,7 @@ class HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.book),
               title: const Text('Mis recetas'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -82,7 +85,7 @@ class HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.local_cafe),
               title: const Text('Mi Barista'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -95,7 +98,7 @@ class HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.feedback),
               title: const Text('Tu opinión'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -161,7 +164,7 @@ class RecipeCard extends StatelessWidget {
       width: 350,
       height: 100,
       child: Card(
-        color: const Color.fromARGB(255, 227, 217, 186),
+        color: const Color.fromARGB(255, 241, 235, 216),
         elevation: 4,
         child: Padding(
           padding: const EdgeInsets.all(16.0),

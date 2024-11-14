@@ -45,7 +45,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 205, 171, 161),
+      backgroundColor: const Color.fromARGB(255, 250, 217, 207),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text("Mis recetas"),
@@ -70,15 +70,18 @@ class MyRecipesPageState extends State<MyRecipesPage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            Container(
+              height: 120,
+              decoration: const BoxDecoration(
                 color: Colors.brown,
               ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 48,
+              child: const DrawerHeader(
+                child: Text(
+                  'Menú',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),
@@ -96,7 +99,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.book),
               title: const Text('Mis recetas'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -109,7 +112,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.local_cafe),
               title: const Text('Mi Barista'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -122,7 +125,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.coffee),
+              leading: const Icon(Icons.feedback),
               title: const Text('Tu opinión'),
               onTap: () {
                 Navigator.pop(context); // Close drawer
@@ -159,7 +162,7 @@ class MyRecipesPageState extends State<MyRecipesPage> {
             itemBuilder: (context, index) {
               Recipe recipe = recipes[index];
               return Card(
-                color: const Color.fromARGB(255, 227, 217, 186),
+                color: const Color.fromARGB(255, 241, 235, 216),
                 child: ListTile(
                   leading: recipe.image.isNotEmpty
                       ? (recipe.image.startsWith("assets/")
