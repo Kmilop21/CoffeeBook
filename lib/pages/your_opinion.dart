@@ -17,6 +17,10 @@ class YourOpinionPageState extends State<YourOpinionPage> {
   Map<String, dynamic>? questionsData;
   Map<String, int> responses = {};
 
+  final TextEditingController _nameController = TextEditingController();
+  String? _selectedGroup;
+  final TextEditingController _relationshipController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -129,9 +133,58 @@ class YourOpinionPageState extends State<YourOpinionPage> {
       body: questionsData == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              children: questionsData!.entries.map((entry) {
-                return buildCategory(entry.key, entry.value);
-              }).toList(),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Información del usuario:',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Nombre',
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      DropdownButton<String>(
+                        value: _selectedGroup,
+                        hint: const Text('Selecciona tu grupo'),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedGroup = value;
+                          });
+                        },
+                        items: [
+                          'Trabajando en sus propios pilotos',
+                          'Trabajando en la misma área',
+                          'Externo'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 18),
+                      TextField(
+                        controller: _relationshipController,
+                        decoration: const InputDecoration(
+                          labelText: 'Relación/Parentesco',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Wrap the result of map() in a Column widget
+                Column(
+                  children: questionsData!.entries.map((entry) {
+                    return buildCategory(entry.key, entry.value);
+                  }).toList(),
+                ),
+              ],
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: sendEmail,
@@ -207,34 +260,44 @@ class YourOpinionPageState extends State<YourOpinionPage> {
   }
 
   Future<void> sendEmail() async {
-    // Start building the email body with a header
-    String emailBody = 'Opinión del usuario:\n\n';
+    if (_nameController.text.isEmpty ||
+        _selectedGroup == null ||
+        _relationshipController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text('Por favor, completa todos los campos antes de enviar.'),
+        ),
+      );
+    } else {
+      String emailBody = 'Información del usuario:\n\n';
+      emailBody += 'Nombre: ${_nameController.text}\n';
+      emailBody += 'Grupo: $_selectedGroup\n';
+      emailBody += 'Relación/Parentesco: ${_relationshipController.text}\n\n';
 
-    // Iterate over the categories and their questions
-    questionsData?.forEach((category, questions) {
-      emailBody += '$category:\n'; // Add the category title
+      emailBody += 'Opinión del usuario:\n\n';
 
-      // Iterate over each question in the category
-      for (var question in questions) {
-        final String title = question['titulo'];
-        final int response =
-            responses[title] ?? 0; // Get the response (default to 0)
+      questionsData?.forEach((category, questions) {
+        emailBody += '$category:\n';
 
-        // Add the question and its response to the email body
-        emailBody += '- $title: $response estrellas\n';
-      }
+        for (var question in questions) {
+          final String title = question['titulo'];
+          final int response = responses[title] ?? 0;
 
-      emailBody += '\n'; // Add a newline after each category
-    });
+          emailBody += '- $title: $response estrellas\n';
+        }
 
-    // Send the email
-    final Email email = Email(
-      body: emailBody,
-      subject: 'Feedback de la CoffeeBook',
-      recipients: ['cprovoste22@alumnos.utalca.cl'],
-      isHTML: false,
-    );
+        emailBody += '\n';
+      });
 
-    await FlutterEmailSender.send(email);
+      final Email email = Email(
+        body: emailBody,
+        subject: 'Feedback de la CoffeeBook',
+        recipients: ['cprovoste22@alumnos.utalca.cl'],
+        isHTML: false,
+      );
+
+      await FlutterEmailSender.send(email);
+    }
   }
 }
