@@ -16,10 +16,14 @@ Los usuarios quieren poder compartir la información de sus recetas
 
 Los usuarios quieren poder editar las recetas de Mi Barista
 
+### APK
+
+[Link](https://drive.google.com/file/d/1FEfiV6GQJpqVBOkQKOoOAjlm3s5wmDId/view?usp=sharing)
+
 ### Link de video
 
 [Link](https://youtu.be/Q9wKnzT-ARA)
 
-### APK
+### Analisis de opiniones
 
-[Link](https://drive.google.com/file/d/1FEfiV6GQJpqVBOkQKOoOAjlm3s5wmDId/view?usp=sharing)
+[Link](https://docs.google.com/document/d/1Vgi4rzF6tscFJN0SuGjuCl62QKnLOXpYArTF4v71ggU/edit?usp=drivesdk)
