@@ -50,7 +50,7 @@ class YourOpinionPageState extends State<YourOpinionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 227, 217, 186),
+      backgroundColor: const Color.fromARGB(255, 197, 188, 161),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 146, 111, 102),
         title: const Text('Tu Opinión'),
@@ -216,24 +216,35 @@ class YourOpinionPageState extends State<YourOpinionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: const TextStyle(fontSize: 16)),
-        Slider(
-          value: (responses[title] ?? 0).toDouble(),
-          min: 0,
-          max: 5,
-          divisions: 5,
-          label: '${responses[title] ?? 0}',
-          onChanged: (value) {
-            setState(() {
-              responses[title] = value.toInt();
-            });
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center, // Centers the stars
+          children: List.generate(5, (index) {
+            bool isSelected = (responses[title] ?? 0) > index;
+
+            return IconButton(
+              icon: Icon(
+                isSelected ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+              ),
+              onPressed: () {
+                setState(() {
+                  // If the first star is clicked twice, reset to 0
+                  if (index == 0 && responses[title] != 0) {
+                    responses[title] = 0; // Reset the rating to 0
+                  } else {
+                    responses[title] =
+                        index + 1; // Set the rating to the current star value
+                  }
+                });
+              },
+            );
+          }),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width:
-                  MediaQuery.of(context).size.width * 0.3, // Limits label width
+              width: MediaQuery.of(context).size.width * 0.3,
               child: Text(
                 minLabel,
                 softWrap: true,
@@ -242,8 +253,7 @@ class YourOpinionPageState extends State<YourOpinionPage> {
               ),
             ),
             SizedBox(
-              width:
-                  MediaQuery.of(context).size.width * 0.3, // Limits label width
+              width: MediaQuery.of(context).size.width * 0.3,
               child: Text(
                 maxLabel,
                 softWrap: true,
